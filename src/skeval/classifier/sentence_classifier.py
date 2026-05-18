@@ -119,6 +119,8 @@ class SentenceClassifier:
         random_state: Optional[int] = None,
         num_workers: int = 0,
         pin_memory: bool = False,
+        val_split: float = 0.0,
+        patience: int = 0,
     ) -> None:
         """Initialise the classifier with training hyper-parameters.
 
@@ -133,6 +135,11 @@ class SentenceClassifier:
                 ``0`` (default) loads data in the main process.
             pin_memory: Pin DataLoader output tensors to CUDA pinned memory.
                 Only beneficial when training on a GPU.
+            val_split: Fraction of training data to hold out as a validation
+                set (e.g. ``0.1`` for 10 %). ``0.0`` disables validation.
+            patience: Number of epochs without validation-loss improvement
+                before training stops early. ``0`` disables early stopping.
+                Requires ``val_split > 0``.
         """
         self.embed_dim = embed_dim
         self.epochs = epochs
@@ -141,6 +148,8 @@ class SentenceClassifier:
         self.random_state = random_state
         self.num_workers = num_workers
         self.pin_memory = pin_memory
+        self.val_split = val_split
+        self.patience = patience
 
         self.model: Optional[BasicTextClassifier] = None
         self.vocab = VocabBuilder()
@@ -171,6 +180,8 @@ class SentenceClassifier:
             "random_state": self.random_state,
             "num_workers": self.num_workers,
             "pin_memory": self.pin_memory,
+            "val_split": self.val_split,
+            "patience": self.patience,
         }
 
     def set_params(self, **params: Any) -> "SentenceClassifier":
@@ -195,6 +206,11 @@ class SentenceClassifier:
     def fit(self, X: List[str], y: List[str]) -> "SentenceClassifier":
         """Build the vocabulary and train the model on labelled sentences.
 
+        When ``val_split > 0`` a stratified holdout is carved out before
+        training and validation loss is reported each epoch. When
+        ``patience > 0`` training stops as soon as validation loss has not
+        improved for that many consecutive epochs.
+
         Args:
             X: Training sentences.
             y: Corresponding class labels aligned with ``X``.
@@ -208,8 +224,24 @@ class SentenceClassifier:
         _validate_input(X, y)
         self._seed()
 
-        self.vocab.build(X)
-        self.label_encoder.build(y)
+        from skeval.dataset.loader import DatasetLoader
+
+        # --- optional validation split ---
+        X_train, y_train = X, y
+        X_val: List[str] = []
+        y_val: List[str] = []
+        if self.val_split > 0.0:
+            n_val = max(1, int(len(X) * self.val_split))
+            indices = list(range(len(X)))
+            random.shuffle(indices)
+            val_idx, train_idx = indices[:n_val], indices[n_val:]
+            X_train = [X[i] for i in train_idx]
+            y_train = [y[i] for i in train_idx]
+            X_val = [X[i] for i in val_idx]
+            y_val = [y[i] for i in val_idx]
+
+        self.vocab.build(X_train)
+        self.label_encoder.build(y_train)
 
         self.model = BasicTextClassifier(
             vocab_size=len(self.vocab),
@@ -217,20 +249,35 @@ class SentenceClassifier:
             num_classes=self.label_encoder.num_classes,
         ).to(self.device)
 
-        from skeval.dataset.loader import DatasetLoader
-
         loader = DatasetLoader.create_dataloader(
-            X,
-            y,
+            X_train,
+            y_train,
             self.vocab,
             self.label_encoder,
             batch_size=self.batch_size,
             num_workers=self.num_workers,
             pin_memory=self.pin_memory,
         )
+        val_loader = (
+            DatasetLoader.create_dataloader(
+                X_val,
+                y_val,
+                self.vocab,
+                self.label_encoder,
+                batch_size=self.batch_size,
+                shuffle=False,
+                num_workers=self.num_workers,
+                pin_memory=self.pin_memory,
+            )
+            if X_val
+            else None
+        )
 
         criterion = nn.CrossEntropyLoss()
         optimizer = torch.optim.Adam(self.model.parameters(), lr=self.lr)
+
+        best_val_loss = float("inf")
+        no_improve = 0
 
         for epoch in tqdm(range(1, self.epochs + 1), desc="Training", unit="ep"):
             self.model.train()
@@ -250,11 +297,41 @@ class SentenceClassifier:
                 total_loss += loss.item()
                 total_acc += (out.argmax(1) == targets).sum().item()
 
-            tqdm.write(
+            msg = (
                 f"Epoch {epoch}/{self.epochs} | "
                 f"loss={total_loss / len(loader):.4f} "
-                f"acc={total_acc / len(X):.4f}"
+                f"acc={total_acc / len(X_train):.4f}"
             )
+
+            if val_loader is not None:
+                self.model.eval()
+                val_loss = 0.0
+                with torch.no_grad():
+                    for texts, targets, offsets in val_loader:
+                        texts = texts.to(self.device)
+                        targets = targets.to(self.device)
+                        offsets = offsets.to(self.device)
+                        val_loss += criterion(
+                            self.model(texts, offsets), targets
+                        ).item()
+                val_loss /= len(val_loader)
+                msg += f" | val_loss={val_loss:.4f}"
+
+                if self.patience > 0:
+                    if val_loss < best_val_loss:
+                        best_val_loss = val_loss
+                        no_improve = 0
+                    else:
+                        no_improve += 1
+                        if no_improve >= self.patience:
+                            tqdm.write(msg)
+                            tqdm.write(
+                                f"Early stopping at epoch {epoch} "
+                                f"(no improvement for {self.patience} epochs)."
+                            )
+                            break
+
+            tqdm.write(msg)
 
         return self
 
