@@ -59,9 +59,10 @@ docs = [
 skeval = "skeval.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/direkkakkar319-ops/Sentinel.AI"
-Repository = "https://github.com/direkkakkar319-ops/Sentinel.AI.git"
-Issues = "https://github.com/direkkakkar319-ops/Sentinel.AI/issues"
+Homepage = "https://github.com/skeval-ai/skeval"
+Repository = "https://github.com/skeval-ai/skeval.git"
+Issues = "https://github.com/skeval-ai/skeval/issues"
+Documentation = "https://skeval.readthedocs.io"
 
 # ─── Tool Configuration ────────────────────────────────────────────────────────
 
