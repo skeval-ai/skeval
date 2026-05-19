@@ -6,6 +6,35 @@ All notable changes to skeval are documented here.
 The format follows `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`_,
 and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+0.2.0 — 2026-05-19
+-------------------
+
+**Added**
+
+* :mod:`~skeval.model_selection` — new module with :func:`~skeval.model_selection.train_test_split` and :func:`~skeval.model_selection.cross_val_score`
+* :meth:`~skeval.classifier.SentenceClassifier.predict_proba` — probability outputs for LIME, SHAP, and ONNX compatibility
+* Validation split and early stopping in :meth:`~skeval.classifier.SentenceClassifier.fit` (``val_split``, ``patience`` parameters)
+* Batched prediction in :meth:`~skeval.classifier.SentenceClassifier.predict` and :meth:`~skeval.classifier.SentenceClassifier.predict_proba`
+* ``num_workers`` and ``pin_memory`` parameters on the DataLoader for faster data loading
+* ``random_state`` parameter on :class:`~skeval.classifier.SentenceClassifier` for reproducible training
+* Input validation in :meth:`~skeval.classifier.SentenceClassifier.fit` and :meth:`~skeval.classifier.SentenceClassifier.predict`
+* :class:`~skeval.classifier.SentenceClassifier` now inherits from ``sklearn.base.BaseEstimator`` — fully compatible with sklearn pipelines and ``GridSearchCV``
+* ``check_estimator()`` compliance tests in CI
+* Integration tests for full pipeline (CSV → train → save → load → predict → evaluate)
+* Test suite grew from 11 to 79 tests
+* Google-style docstrings on all public classes and functions
+* Ecosystem compatibility documentation (LIME, SHAP, ONNX, skore, GridSearchCV)
+* Read the Docs configuration and Sphinx docs build workflow
+
+**Changed**
+
+* :class:`~skeval.utils.helpers.VocabBuilder` now builds ``word2idx`` and ``idx2word`` in a single pass
+* ``transformers`` and ``datasets`` moved to optional extras (``pip install skeval[transformers]``)
+* Dependency upper bounds pinned to prevent silent breakage
+* Full type annotations with ``mypy --strict`` enforced in CI
+
+**Full Changelog**: https://github.com/skeval-ai/skeval/compare/v0.1.2...v0.2.0
+
 ----
 
 0.1.1 — 2026-04-25
