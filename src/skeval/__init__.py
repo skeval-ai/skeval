@@ -17,8 +17,9 @@ Example
 from skeval.classifier import SentenceClassifier
 from skeval.evaluator import Evaluator
 from skeval.metrics import compute_metrics
+from skeval.model_selection import cross_val_score, train_test_split
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 __author__ = "skeval Contributors"
 __license__ = "MIT"
 
@@ -26,5 +27,7 @@ __all__ = [
     "SentenceClassifier",
     "Evaluator",
     "compute_metrics",
+    "train_test_split",
+    "cross_val_score",
     "__version__",
 ]
