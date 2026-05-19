@@ -92,7 +92,7 @@ class BasicTextClassifier(nn.Module):  # type: ignore[misc]
         return self.fc(self.embedding(text, offsets))
 
 
-class SentenceClassifier(BaseEstimator):
+class SentenceClassifier(BaseEstimator):  # type: ignore[misc]
     """sklearn-compatible sentence classifier backed by a bag-of-words neural network.
 
     Implements the full sklearn estimator interface (``fit``, ``predict``,
