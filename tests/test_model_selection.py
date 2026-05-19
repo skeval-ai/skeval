@@ -72,7 +72,6 @@ def test_train_test_split_mismatched_lengths_raises():
         train_test_split(SENTENCES, LABELS[:3])
 
 
-@pytest.mark.xfail(reason="requires SentenceClassifier to inherit BaseEstimator (#25)")
 def test_cross_val_score_shape():
     """cross_val_score() should return an array with one score per fold."""
     clf = SentenceClassifier(embed_dim=16, epochs=1, random_state=0)
@@ -80,7 +79,6 @@ def test_cross_val_score_shape():
     assert scores.shape == (2,)
 
 
-@pytest.mark.xfail(reason="requires SentenceClassifier to inherit BaseEstimator (#25)")
 def test_cross_val_score_values_in_range():
     """Each cross-validation score must lie in the valid accuracy range [0.0, 1.0]."""
     clf = SentenceClassifier(embed_dim=16, epochs=1, random_state=0)

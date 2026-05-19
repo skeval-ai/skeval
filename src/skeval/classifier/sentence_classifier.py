@@ -2,11 +2,12 @@ import json
 import os
 import random
 import warnings
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
 import numpy as np
 import torch
 import torch.nn as nn
+from sklearn.base import BaseEstimator
 from tqdm import tqdm
 
 from skeval.utils.helpers import LabelEncoder, VocabBuilder
@@ -91,7 +92,7 @@ class BasicTextClassifier(nn.Module):  # type: ignore[misc]
         return self.fc(self.embedding(text, offsets))
 
 
-class SentenceClassifier:
+class SentenceClassifier(BaseEstimator):
     """sklearn-compatible sentence classifier backed by a bag-of-words neural network.
 
     Implements the full sklearn estimator interface (``fit``, ``predict``,
@@ -161,47 +162,6 @@ class SentenceClassifier:
             random.seed(self.random_state)
             np.random.seed(self.random_state)
             torch.manual_seed(self.random_state)
-
-    def get_params(self, deep: bool = True) -> Dict[str, Any]:
-        """Return hyper-parameter names and values (sklearn estimator protocol).
-
-        Args:
-            deep: Ignored — included for sklearn API compatibility.
-
-        Returns:
-            Dictionary mapping parameter names to their current values.
-        """
-        del deep
-        return {
-            "embed_dim": self.embed_dim,
-            "epochs": self.epochs,
-            "batch_size": self.batch_size,
-            "lr": self.lr,
-            "random_state": self.random_state,
-            "num_workers": self.num_workers,
-            "pin_memory": self.pin_memory,
-            "val_split": self.val_split,
-            "patience": self.patience,
-        }
-
-    def set_params(self, **params: Any) -> "SentenceClassifier":
-        """Set hyper-parameters by name (sklearn estimator protocol).
-
-        Args:
-            **params: Keyword arguments where each key is a valid parameter
-                name and the value is the new setting.
-
-        Returns:
-            The classifier instance (``self``), enabling method chaining.
-
-        Raises:
-            ValueError: If any key is not a recognised parameter name.
-        """
-        for k, v in params.items():
-            if not hasattr(self, k):
-                raise ValueError(f"Invalid parameter '{k}' for SentenceClassifier.")
-            setattr(self, k, v)
-        return self
 
     def fit(self, X: List[str], y: List[str]) -> "SentenceClassifier":
         """Build the vocabulary and train the model on labelled sentences.
