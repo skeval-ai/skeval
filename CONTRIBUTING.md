@@ -110,7 +110,7 @@ All tests must pass before a PR can be merged. New features require new tests. C
 
 ## Reporting bugs
 
-Open a [GitHub issue](https://github.com/direkkakkar319-ops/skeval/issues/new?template=bug_report.md) using the bug report template. Include:
+Open a [GitHub issue](https://github.com/skeval-ai/skeval/issues/new?template=bug_report.md) using the bug report template. Include:
 
 - What you did
 - What you expected to happen
@@ -121,7 +121,7 @@ Open a [GitHub issue](https://github.com/direkkakkar319-ops/skeval/issues/new?te
 
 ## Suggesting features
 
-Open a [GitHub issue](https://github.com/direkkakkar319-ops/skeval/issues/new?template=feature_request.md) using the feature request template. Describe:
+Open a [GitHub issue](https://github.com/skeval-ai/skeval/issues/new?template=feature_request.md) using the feature request template. Describe:
 
 - The problem you are trying to solve
 - Your proposed solution
