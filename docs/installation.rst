@@ -21,7 +21,7 @@ Install from Source
 
 .. code-block:: bash
 
-   git clone https://github.com/direkkakkar319-ops/skeval.git
+   git clone https://github.com/skeval-ai/skeval.git
    cd skeval
    pip install -e .
 
@@ -58,4 +58,4 @@ Verify Installation
 .. code-block:: python
 
    import skeval
-   print(skeval.__version__)  # 0.1.2
+   print(skeval.__version__)  # 0.2.0

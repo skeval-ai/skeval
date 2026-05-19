@@ -81,7 +81,7 @@ def main() -> None:
         prog="skeval",
         description="Sentinel AI — Semantic Evaluation Layer for LLMs",
     )
-    parser.add_argument("--version", action="version", version="skeval-ai 0.1.1")
+    parser.add_argument("--version", action="version", version="skeval-ai 0.2.0")
     subparsers = parser.add_subparsers(dest="command", metavar="<command>")
     subparsers.required = True
 

@@ -7,8 +7,8 @@ sys.path.insert(0, os.path.abspath("../src"))
 project = "skeval"
 copyright = "2026, skeval Contributors"
 author = "skeval Contributors"
-version = "0.1"
-release = "0.1.0"
+version = "0.2"
+release = "0.2.0"
 
 extensions = [
     "sphinx.ext.autodoc",
