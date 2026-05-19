@@ -20,6 +20,7 @@ def fitted_clf():
 
 # --- initialisation ---
 
+
 def test_default_init():
     """All hyper-parameters should match their documented defaults on construction."""
     clf = SentenceClassifier()
@@ -46,13 +47,21 @@ def test_custom_init():
 
 # --- get_params / set_params ---
 
+
 def test_get_params_keys():
     """get_params() must return exactly the set of sklearn-recognised parameters."""
     clf = SentenceClassifier()
     params = clf.get_params()
     expected = {
-        "embed_dim", "epochs", "batch_size", "lr", "random_state",
-        "num_workers", "pin_memory", "val_split", "patience",
+        "embed_dim",
+        "epochs",
+        "batch_size",
+        "lr",
+        "random_state",
+        "num_workers",
+        "pin_memory",
+        "val_split",
+        "patience",
     }
     assert expected == set(params.keys())
 
@@ -73,6 +82,7 @@ def test_set_params_invalid_key():
 
 
 # --- fit ---
+
 
 def test_fit_builds_vocab_and_labels(fitted_clf):
     """fit() must populate the vocabulary, label encoder, and the neural model."""
@@ -118,6 +128,7 @@ def test_fit_empty_y_raises():
 
 # --- predict ---
 
+
 def test_predict_returns_list(fitted_clf):
     """predict() should return a list of label strings, one per input sentence."""
     preds = fitted_clf.predict(["I am sad"])
@@ -155,6 +166,7 @@ def test_predict_unknown_tokens(fitted_clf):
 
 # --- predict_proba ---
 
+
 def test_predict_proba_shape(fitted_clf):
     """predict_proba() must return an array of shape (n_samples, n_classes)."""
     probs = fitted_clf.predict_proba(SENTENCES)
@@ -176,6 +188,7 @@ def test_predict_proba_before_fit_raises():
 
 # --- score ---
 
+
 def test_score_returns_float(fitted_clf):
     """score() must return a float accuracy value in [0.0, 1.0]."""
     s = fitted_clf.score(SENTENCES, LABELS)
@@ -184,6 +197,7 @@ def test_score_returns_float(fitted_clf):
 
 
 # --- val_split and early stopping ---
+
 
 def test_val_split_runs():
     """fit() with val_split > 0 should complete without error and produce a model."""
@@ -203,6 +217,7 @@ def test_patience_early_stop():
 
 # --- random_state reproducibility ---
 
+
 def test_random_state_reproducibility():
     """Two classifiers with the same random_state must produce identical predictions."""
     clf1 = SentenceClassifier(embed_dim=16, epochs=2, random_state=42)
@@ -213,6 +228,7 @@ def test_random_state_reproducibility():
 
 
 # --- save / load ---
+
 
 def test_save_creates_files(fitted_clf, tmp_path):
     """save() must write model.pt and metadata.json into the specified directory."""
@@ -250,6 +266,7 @@ def test_load_predict_consistent(fitted_clf, tmp_path):
 
 
 # --- deprecated train() ---
+
 
 def test_train_deprecated():
     """train() must emit a DeprecationWarning directing users to use fit()."""

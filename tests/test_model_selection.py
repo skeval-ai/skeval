@@ -4,18 +4,32 @@ from skeval.classifier import SentenceClassifier
 from skeval.model_selection import cross_val_score, train_test_split
 
 SENTENCES = [
-    "Water boils at 100C", "I love you", "I think so", "Do this now",
-    "The sky is blue", "I feel happy", "In my opinion", "Please help me",
+    "Water boils at 100C",
+    "I love you",
+    "I think so",
+    "Do this now",
+    "The sky is blue",
+    "I feel happy",
+    "In my opinion",
+    "Please help me",
 ]
 LABELS = [
-    "fact", "emotion", "opinion", "instruction",
-    "fact", "emotion", "opinion", "instruction",
+    "fact",
+    "emotion",
+    "opinion",
+    "instruction",
+    "fact",
+    "emotion",
+    "opinion",
+    "instruction",
 ]
 
 
 def test_train_test_split_sizes():
     """train_test_split() should produce train/test sets whose sizes sum to len(X)."""
-    X_train, X_test, y_train, y_test = train_test_split(SENTENCES, LABELS, test_size=0.25)
+    X_train, X_test, y_train, y_test = train_test_split(
+        SENTENCES, LABELS, test_size=0.25
+    )
     assert len(X_train) + len(X_test) == len(SENTENCES)
     assert len(y_train) + len(y_test) == len(LABELS)
 

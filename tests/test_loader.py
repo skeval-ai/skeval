@@ -7,8 +7,8 @@ import torch
 from skeval.dataset.loader import DatasetLoader, SentenceDataset, collate_fn
 from skeval.utils.helpers import LabelEncoder, VocabBuilder
 
-
 # --- VocabBuilder ---
+
 
 def test_vocab_builder_basic():
     """build() should populate word2idx with all tokens and set is_built to True."""
@@ -75,6 +75,7 @@ def test_vocab_builder_len():
 
 # --- LabelEncoder ---
 
+
 def test_label_encoder_basic():
     """build() should deduplicate labels and set is_built to True."""
     enc = LabelEncoder()
@@ -122,6 +123,7 @@ def test_label_encoder_decode_before_build_raises():
 
 # --- SentenceDataset ---
 
+
 def test_sentence_dataset_len():
     """__len__ should return the number of sentences in the dataset."""
     vocab = VocabBuilder()
@@ -148,6 +150,7 @@ def test_sentence_dataset_getitem():
 
 # --- collate_fn ---
 
+
 def test_collate_fn_output_shapes():
     """collate_fn should produce flat sentence tensor, 1-D label tensor, and offsets."""
     vocab = VocabBuilder()
@@ -162,6 +165,7 @@ def test_collate_fn_output_shapes():
 
 
 # --- DatasetLoader ---
+
 
 def test_dataset_loader_csv(tmp_path):
     """load_csv() should parse text and label columns from a CSV file."""
