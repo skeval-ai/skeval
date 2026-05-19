@@ -56,7 +56,7 @@ def test_compute_metrics_labels_sorted():
 
 
 def test_compute_metrics_confusion_matrix_shape():
-    """The confusion matrix must be square with side length equal to num unique labels."""
+    """The confusion matrix must be square with side length equal to the label count."""
     y_true = ["fact", "emotion", "opinion"]
     y_pred = ["fact", "emotion", "opinion"]
     results = compute_metrics(y_true, y_pred)

@@ -44,7 +44,7 @@ def test_train_test_split_returns_lists():
 
 
 def test_train_test_split_test_size_int():
-    """train_test_split() should accept an integer test_size for absolute split counts."""
+    """train_test_split() should accept an integer test_size for absolute counts."""
     X_train, X_test, y_train, y_test = train_test_split(SENTENCES, LABELS, test_size=2)
     assert len(X_test) == 2
     assert len(X_train) == len(SENTENCES) - 2

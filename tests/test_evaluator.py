@@ -27,7 +27,7 @@ def test_evaluator_all_wrong():
 
 
 def test_evaluator_mismatch_length():
-    """evaluate() must raise ValueError when predictions and ground_truth differ in length."""
+    """evaluate() must raise ValueError when list lengths differ."""
     evaluator = Evaluator()
     with pytest.raises(ValueError, match="Mismatch in lengths"):
         evaluator.evaluate(["fact"], ["fact", "emotion"])
