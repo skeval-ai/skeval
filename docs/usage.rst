@@ -7,13 +7,13 @@ Python API
 Training a Classifier
 ^^^^^^^^^^^^^^^^^^^^^
 
-Create a :class:`~skeval.classifier.SentenceClassifier`, pass your sentences and labels, and call :meth:`~skeval.classifier.SentenceClassifier.train`:
+Create a :class:`~skeval.classifier.SentenceClassifier` and call :meth:`~skeval.classifier.SentenceClassifier.fit`:
 
 .. code-block:: python
 
    from skeval.classifier import SentenceClassifier
 
-   classifier = SentenceClassifier(embed_dim=64)
+   classifier = SentenceClassifier(embed_dim=64, random_state=42)
 
    sentences = [
        "Water boils at 100 degrees Celsius",
@@ -32,9 +32,37 @@ Create a :class:`~skeval.classifier.SentenceClassifier`, pass your sentences and
        "instruction", "instruction",
    ]
 
-   classifier.train(sentences, labels, epochs=20, lr=0.01)
+   classifier.fit(sentences, labels, epochs=20, lr=0.01)
 
 The label vocabulary is inferred automatically from the labels you provide — you are not limited to the four default categories.
+
+Training with Validation Split and Early Stopping
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Pass ``val_split`` to hold out a fraction of training data for validation, and ``patience`` to stop early when validation loss stops improving:
+
+.. code-block:: python
+
+   classifier = SentenceClassifier(
+       embed_dim=64,
+       val_split=0.2,
+       patience=5,
+       random_state=42,
+   )
+   classifier.fit(sentences, labels, epochs=100, lr=0.01)
+
+DataLoader Performance Options
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Use ``num_workers`` and ``pin_memory`` to speed up data loading on multi-core machines or when training on GPU:
+
+.. code-block:: python
+
+   classifier = SentenceClassifier(
+       embed_dim=64,
+       num_workers=4,
+       pin_memory=True,
+   )
 
 Making Predictions
 ^^^^^^^^^^^^^^^^^^
@@ -51,6 +79,56 @@ Making Predictions
    ])
    print(predictions)
    # ['fact', 'emotion', 'opinion', 'instruction']
+
+Probability Outputs
+^^^^^^^^^^^^^^^^^^^
+
+:meth:`~skeval.classifier.SentenceClassifier.predict_proba` returns a ``(n_samples, n_classes)`` NumPy array of softmax probabilities, compatible with LIME, SHAP, and ONNX:
+
+.. code-block:: python
+
+   proba = classifier.predict_proba([
+       "The sky is blue",
+       "I am so happy",
+   ])
+   print(proba.shape)   # (2, 4)
+   print(proba[0])      # e.g. [0.82, 0.05, 0.08, 0.05]
+
+Model Selection
+^^^^^^^^^^^^^^^
+
+Use :mod:`skeval.model_selection` for splitting data and cross-validating:
+
+.. code-block:: python
+
+   from skeval.model_selection import train_test_split, cross_val_score
+   from skeval.classifier import SentenceClassifier
+
+   X_train, X_test, y_train, y_test = train_test_split(
+       sentences, labels, test_size=0.25, random_state=42, stratify=True
+   )
+
+   clf = SentenceClassifier(embed_dim=64, epochs=20, random_state=0)
+   scores = cross_val_score(clf, sentences, labels, cv=4)
+   print(scores)          # e.g. [0.75, 0.88, 0.62, 0.75]
+   print(scores.mean())   # e.g. 0.75
+
+sklearn Integration
+^^^^^^^^^^^^^^^^^^^
+
+:class:`~skeval.classifier.SentenceClassifier` inherits from ``sklearn.base.BaseEstimator``, making it compatible with sklearn pipelines and ``GridSearchCV``:
+
+.. code-block:: python
+
+   from sklearn.model_selection import GridSearchCV
+   from skeval.classifier import SentenceClassifier
+
+   param_grid = {"embed_dim": [32, 64, 128], "epochs": [10, 20]}
+   grid = GridSearchCV(
+       SentenceClassifier(random_state=0), param_grid, cv=3
+   )
+   grid.fit(sentences, labels)
+   print(grid.best_params_)
 
 Saving and Loading
 ^^^^^^^^^^^^^^^^^^
@@ -130,7 +208,7 @@ Use :class:`~skeval.dataset.loader.DatasetLoader` to read CSV or JSON Lines file
        "data/train.jsonl", text_key="text", label_key="label"
    )
 
-   classifier.train(sentences, labels)
+   classifier.fit(sentences, labels)
 
 ----
 

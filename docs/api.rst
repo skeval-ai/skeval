@@ -47,6 +47,16 @@ skeval.dataset
 
 ----
 
+skeval.model_selection
+------------------------
+
+.. automodule:: skeval.model_selection.model_selection
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+----
+
 skeval.utils
 --------------
 

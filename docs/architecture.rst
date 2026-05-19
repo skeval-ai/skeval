@@ -19,6 +19,8 @@ Module Overview
    │   └── evaluator.py
    ├── metrics/             # Metric computation
    │   └── metrics.py
+   ├── model_selection/     # train_test_split and cross_val_score
+   │   └── model_selection.py
    └── utils/               # Shared building blocks
        └── helpers.py
 
@@ -73,7 +75,7 @@ Builds a bag-of-words vocabulary from a list of sentences. Text is normalized (l
 * ``<PAD>`` at index ``0`` — used as a placeholder for empty inputs
 * ``<UNK>`` at index ``1`` — maps words not seen during training
 
-The ``min_freq`` parameter (default ``1``) filters out rare tokens.
+The ``min_freq`` parameter (default ``1``) filters out rare tokens. The ``word2idx`` and ``idx2word`` mappings are built in a single pass over the corpus for efficiency.
 
 LabelEncoder
 ^^^^^^^^^^^^
