@@ -89,4 +89,6 @@ def cross_val_score(
         >>> scores = cross_val_score(SentenceClassifier(), X, y, cv=5)
         >>> print(scores.mean())
     """
-    return _cv_score(estimator, X, y, cv=cv, scoring=scoring, n_jobs=n_jobs)  # type: ignore[no-any-return]
+    return _cv_score(  # type: ignore[no-any-return]
+        estimator, X, y, cv=cv, scoring=scoring, n_jobs=n_jobs
+    )
