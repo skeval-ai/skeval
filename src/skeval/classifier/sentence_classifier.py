@@ -241,7 +241,7 @@ class SentenceClassifier:
             y_val = [y[i] for i in val_idx]
 
         self.vocab.build(X_train)
-        self.label_encoder.build(y_train)
+        self.label_encoder.build(y)  # all classes must be known before splitting
 
         self.model = BasicTextClassifier(
             vocab_size=len(self.vocab),
