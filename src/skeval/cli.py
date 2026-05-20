@@ -79,7 +79,7 @@ def _evaluate(args: argparse.Namespace) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(
         prog="skeval",
-        description="Sentinel AI — Semantic Evaluation Layer for LLMs",
+        description="skeval — Semantic Evaluation Layer for LLMs",
     )
     parser.add_argument("--version", action="version", version="skeval-ai 0.2.0")
     subparsers = parser.add_subparsers(dest="command", metavar="<command>")
