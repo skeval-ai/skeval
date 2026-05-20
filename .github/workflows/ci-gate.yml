@@ -55,10 +55,10 @@ jobs:
       - name: Trigger CI checks
         if: steps.permission.outputs.allowed == 'true'
         run: |
-          gh workflow run ci.yml --ref ${{ steps.branch.outputs.ref }}
-          gh workflow run tests.yml --ref ${{ steps.branch.outputs.ref }}
-          gh workflow run code-quality.yml --ref ${{ steps.branch.outputs.ref }}
-          gh workflow run security.yml --ref ${{ steps.branch.outputs.ref }}
+          gh workflow run ci.yml --repo ${{ github.repository }} --ref ${{ steps.branch.outputs.ref }}
+          gh workflow run tests.yml --repo ${{ github.repository }} --ref ${{ steps.branch.outputs.ref }}
+          gh workflow run code-quality.yml --repo ${{ github.repository }} --ref ${{ steps.branch.outputs.ref }}
+          gh workflow run security.yml --repo ${{ github.repository }} --ref ${{ steps.branch.outputs.ref }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
