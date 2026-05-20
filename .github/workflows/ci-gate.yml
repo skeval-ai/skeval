@@ -39,7 +39,7 @@ jobs:
               body: '⛔ Only collaborators with write access can trigger CI.',
             });
 
-      - name: Get PR branch
+      - name: Get PR ref
         if: steps.permission.outputs.allowed == 'true'
         id: branch
         uses: actions/github-script@v7
@@ -50,7 +50,9 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.issue.number,
             });
-            core.setOutput('ref', pr.head.ref);
+            // Use the synthetic PR ref hosted in the base repository so
+            // workflow_dispatch works for branches coming from forks too.
+            core.setOutput('ref', `refs/pull/${context.issue.number}/head`);
 
       - name: Trigger CI checks
         if: steps.permission.outputs.allowed == 'true'
