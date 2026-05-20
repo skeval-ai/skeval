@@ -2,6 +2,15 @@ __pycache__/
 .venv/
 venv
 .env
+
+# secrets / credentials
+*.key
+*.pem
+secrets/
+credentials/
+.aws/
+.ssh/
+
 build/
 dist/
 *.egg-info/
