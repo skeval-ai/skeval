@@ -48,7 +48,7 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
 
 * Miscellaneous fixes and stability improvements
 
-**Full Changelog**: https://github.com/direkkakkar319-ops/skeval/compare/v0.1.1...v0.1.2
+**Full Changelog**: https://github.com/skeval-ai/skeval/compare/v0.1.1...v0.1.2
 
 ----
 
