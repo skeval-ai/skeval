@@ -1,6 +1,6 @@
 """Use a custom label taxonomy instead of the four defaults.
 
-Sentinel AI imposes no fixed label set — you define the categories
+skeval imposes no fixed label set — you define the categories
 by what you put in your training data.
 """
 
