@@ -19,7 +19,7 @@ from skeval.evaluator import Evaluator
 from skeval.metrics import compute_metrics
 from skeval.model_selection import cross_val_score, train_test_split
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __author__ = "skeval Contributors"
 __license__ = "MIT"
 

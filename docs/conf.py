@@ -8,7 +8,7 @@ project = "skeval"
 copyright = "2026, skeval Contributors"
 author = "skeval Contributors"
 version = "0.2"
-release = "0.2.0"
+release = "0.2.1"
 
 extensions = [
     "sphinx.ext.autodoc",

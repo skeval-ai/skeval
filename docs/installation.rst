@@ -58,4 +58,4 @@ Verify Installation
 .. code-block:: python
 
    import skeval
-   print(skeval.__version__)  # 0.2.0
+   print(skeval.__version__)  # 0.2.1
