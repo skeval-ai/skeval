@@ -10,7 +10,7 @@ from skeval.evaluator import Evaluator
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Evaluate a Sentinel AI Sentence Classifier"
+        description="Evaluate a skeval Sentence Classifier"
     )
     parser.add_argument(
         "--model-dir",
