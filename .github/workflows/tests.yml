@@ -6,10 +6,11 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  merge_group:
 
 jobs:
   test:
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || vars.ENABLE_AUTO_CI == 'true'
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || github.event_name == 'merge_group' || vars.ENABLE_AUTO_CI == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
