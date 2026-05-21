@@ -35,4 +35,5 @@ I used AI assistance for:
 <!--
 Thanks for contributing to skeval. Please keep PRs focused and include the
 relevant validation commands for code or documentation changes.
+Thanks for contributing!
 -->
