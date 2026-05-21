@@ -8,7 +8,7 @@ from skeval.dataset.loader import DatasetLoader
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Train a Sentinel AI Sentence Classifier"
+        description="Train a skeval Sentence Classifier"
     )
     parser.add_argument(
         "--data", required=True, type=str, help="Path to training data (.csv or .jsonl)"
