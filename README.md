@@ -84,7 +84,7 @@ skeval/
 ## ⚙️ Installation
 
 ```bash
-git clone github.com/direkkakkar319-ops/skeval
+git clone https://github.com/skeval-ai/skeval.git
 cd skeval
 pip install -e .
 ```
