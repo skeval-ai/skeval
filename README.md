@@ -141,6 +141,8 @@ print(results)
 
 Full documentation (Sphinx-based) is available in the `docs/` directory.
 
+📖 **[Changelog](https://skeval.readthedocs.io/en/latest/changelog.html)** — See the latest changes and release notes.
+
 To build locally:
 
 ```bash
