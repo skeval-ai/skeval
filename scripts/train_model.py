@@ -60,10 +60,13 @@ def main():
 
     print(f"Loaded {len(sentences)} training samples.")
 
-    classifier = SentenceClassifier(embed_dim=args.embed_dim)
-    classifier.train(
-        sentences, labels, epochs=args.epochs, batch_size=args.batch_size, lr=args.lr
+    classifier = SentenceClassifier(
+        embed_dim=args.embed_dim,
+        epochs=args.epochs,
+        batch_size=args.batch_size,
+        lr=args.lr,
     )
+    classifier.fit(sentences, labels)
 
     print(f"Saving model to {args.save_dir}...")
     classifier.save(args.save_dir)
