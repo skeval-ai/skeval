@@ -190,3 +190,6 @@ Inspired by the need for better semantic evaluation in modern LLM systems.
 ## 🔥 Tagline
 
 > *“Not just what the model says—but what it means.”*
+
+## Documentation
+- [README](https://skeval.readthedocs.io/en/latest/changelog.html`)
