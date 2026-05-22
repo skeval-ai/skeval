@@ -187,6 +187,12 @@ Inspired by the need for better semantic evaluation in modern LLM systems.
 
 ---
 
+## 📖 Documentation
+
+Full documentation and changelog: [https://skeval.readthedocs.io/en/latest/changelog.html](https://skeval.readthedocs.io/en/latest/changelog.html)
+
+---
+
 ## 🔥 Tagline
 
 > *“Not just what the model says—but what it means.”*
