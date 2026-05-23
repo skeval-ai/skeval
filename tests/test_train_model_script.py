@@ -31,6 +31,7 @@ def test_train_model_main_uses_fit_with_constructor_hyperparams(monkeypatch, tmp
         """Loads fake data for testing."""
         @staticmethod
         def load_csv(path, text_col, label_col):
+            """Record the call arguments and return fake sentences and labels."""
             calls["load_csv"] = (path, text_col, label_col)
             return ["Sun rises from east", "I am feeling happy"], ["fact","emotion"]
 
