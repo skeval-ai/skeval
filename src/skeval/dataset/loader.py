@@ -114,6 +114,16 @@ class DatasetLoader:
             A 2-tuple ``(sentences, labels)`` of equal-length string lists.
         """
         df = pd.read_csv(filepath)
+        missing_columns = [
+            col for col in (text_col, label_col) if col not in df.columns
+        ]
+        if missing_columns:
+            available_columns = ", ".join(str(col) for col in df.columns)
+            missing = ", ".join(missing_columns)
+            raise ValueError(
+                f"Missing required CSV column(s): {missing}. "
+                f"Available columns: {available_columns}"
+            )
         return df[text_col].tolist(), df[label_col].tolist()
 
     @staticmethod

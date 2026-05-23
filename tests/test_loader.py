@@ -177,6 +177,19 @@ def test_dataset_loader_csv(tmp_path):
     assert labels == ["fact", "emotion"]
 
 
+def test_dataset_loader_csv_missing_columns(tmp_path):
+    """load_csv() should report requested and available columns when missing."""
+    csv_file = tmp_path / "data.csv"
+    df = pd.DataFrame({"body": ["s1"], "target": ["fact"]})
+    df.to_csv(csv_file, index=False)
+
+    with pytest.raises(ValueError, match="Missing required CSV column\\(s\\): text"):
+        DatasetLoader.load_csv(str(csv_file), "text", "label")
+
+    with pytest.raises(ValueError, match="Available columns: body, target"):
+        DatasetLoader.load_csv(str(csv_file), "text", "label")
+
+
 def test_dataset_loader_json(tmp_path):
     """load_json() should parse text and label keys from a JSONL file."""
     json_file = tmp_path / "data.jsonl"
