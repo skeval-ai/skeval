@@ -36,6 +36,7 @@ def test_train_model_main_uses_fit_with_constructor_hyperparams(monkeypatch, tmp
             return ["Sun rises from east", "I am feeling happy"], ["fact","emotion"]
 
     class FakeSentenceClassifier:
+        """Replaces `SentenceClassifier` during the test"""
         def __init__(self, **kwargs):
             calls["init"] = kwargs
 
