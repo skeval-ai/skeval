@@ -40,3 +40,16 @@ jobs:
       with:
         pytest-coverage-path: ./coverage.xml
         junitxml-path: ./pytest.xml
+
+  test-summary:
+    name: test
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: All matrix tests passed
+        run: |
+          if [[ "${{ needs.test.result }}" != "success" ]]; then
+            echo "One or more test matrix jobs failed"
+            exit 1
+          fi
