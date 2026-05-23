@@ -44,6 +44,7 @@ def test_train_model_main_uses_fit_with_constructor_hyperparams(monkeypatch, tmp
             raise AssertionError("Deprecated train() should not be used")
 
         def fit(self, sentences, labels):
+            """Records sentences and labels when the script calls `fit()`"""
             calls["fit"] = (sentences, labels)
             return self
 
