@@ -189,7 +189,7 @@ Inspired by the need for better semantic evaluation in modern LLM systems.
 
 ## 📖 Documentation
 
-Full documentation and changelog: [https://skeval.readthedocs.io/en/latest/changelog.html](https://skeval.readthedocs.io/en/latest/changelog.html)
+Full documentation and changelog: [https://skeval.readthedocs.io/en/latest/index.html](https://skeval.readthedocs.io/en/latest/changelog.html)
 
 ---
 
