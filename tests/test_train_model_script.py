@@ -41,6 +41,7 @@ def test_train_model_main_uses_fit_with_constructor_hyperparams(monkeypatch, tmp
             calls["init"] = kwargs
 
         def train(self, *args, **kwargs):
+            """Main guard for the test, crashes if deprecated `train()` is called."""
             raise AssertionError("Deprecated train() should not be used")
 
         def fit(self, sentences, labels):
