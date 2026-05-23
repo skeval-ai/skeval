@@ -23,20 +23,25 @@ def test_train_model_main_uses_fit_with_constructor_hyperparams(monkeypatch, tmp
     """Verify `main()` calls `fit()` with constructor hyperparams and never calls `train()`."""
     module = load_train_model_module()
     data_file = tmp_path / "train.csv"
-    data_file.write_text("text,label\nSun rises from east,fact\nI am feeling happy,emotion\n", encoding="utf-8")
+    data_file.write_text(
+        "text,label\nSun rises from east,fact\nI am feeling happy,emotion\n",
+        encoding="utf-8",
+    )
     save_dir = tmp_path / "model"
     calls = {}
 
     class FakeDatasetLoader:
         """Loads fake data for testing."""
+
         @staticmethod
         def load_csv(path, text_col, label_col):
             """Record the call arguments and return fake sentences and labels."""
             calls["load_csv"] = (path, text_col, label_col)
-            return ["Sun rises from east", "I am feeling happy"], ["fact","emotion"]
+            return ["Sun rises from east", "I am feeling happy"], ["fact", "emotion"]
 
     class FakeSentenceClassifier:
-        """Replaces `SentenceClassifier` during the test"""
+        """Replaces `SentenceClassifier` during the test."""
+
         def __init__(self, **kwargs):
             calls["init"] = kwargs
 
@@ -45,12 +50,12 @@ def test_train_model_main_uses_fit_with_constructor_hyperparams(monkeypatch, tmp
             raise AssertionError("Deprecated train() should not be used")
 
         def fit(self, sentences, labels):
-            """Records sentences and labels when the script calls `fit()`"""
+            """Records sentences and labels when the script calls `fit()`."""
             calls["fit"] = (sentences, labels)
             return self
 
         def save(self, save_path):
-            """Records `.save()` was called and with what path"""        
+            """Records `.save()` was called and with what path."""
             calls["save"] = save_path
 
     monkeypatch.setattr(module, "DatasetLoader", FakeDatasetLoader)
@@ -88,5 +93,8 @@ def test_train_model_main_uses_fit_with_constructor_hyperparams(monkeypatch, tmp
         "batch_size": 3,
         "lr": 0.1,
     }
-    assert calls["fit"] == (["Sun rises from east", "I am feeling happy"], ["fact", "emotion"])
+    assert calls["fit"] == (
+        ["Sun rises from east", "I am feeling happy"],
+        ["fact", "emotion"],
+    )
     assert calls["save"] == str(save_dir)
