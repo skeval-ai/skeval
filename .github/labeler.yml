@@ -2,33 +2,33 @@
 # Maps PR labels to file path patterns.
 # See: https://github.com/actions/labeler
 
-"source":
+"source⚡":
   - changed-files:
     - any-glob-to-any-file: "src/**"
 
-"tests":
+"tests🧪":
   - changed-files:
     - any-glob-to-any-file: "tests/**"
 
-"documentation":
+"documentation🧾":
   - changed-files:
     - any-glob-to-any-file:
       - "docs/**"
       - "*.md"
       - "*.rst"
 
-"CI/CD":
+"CI/CD🚦":
   - changed-files:
     - any-glob-to-any-file: ".github/**"
 
-"dependencies":
+"dependencies🪢":
   - changed-files:
     - any-glob-to-any-file:
       - "requirements*.txt"
       - "pyproject.toml"
       - "setup.cfg"
 
-"configuration":
+"configuration📐":
   - changed-files:
     - any-glob-to-any-file:
       - "configs/**"
@@ -37,14 +37,14 @@
       - "*.toml"
       - "*.cfg"
 
-"scripts":
+"scripts🛠️":
   - changed-files:
     - any-glob-to-any-file: "scripts/**"
 
-"notebooks":
+"notebooks📓":
   - changed-files:
     - any-glob-to-any-file: "notebooks/**"
 
-"data":
+"data📁":
   - changed-files:
     - any-glob-to-any-file: "data/**"
