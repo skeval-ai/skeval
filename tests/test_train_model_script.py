@@ -19,6 +19,7 @@ def load_train_model_module():
 
 
 def test_train_model_main_uses_fit_with_constructor_hyperparams(monkeypatch, tmp_path):
+    """Verify `main()` calls `fit()` with constructor hyperparams and never calls `train()`."""
     module = load_train_model_module()
     data_file = tmp_path / "train.csv"
     data_file.write_text("text,label\nhello,fact\nbye,greeting\n", encoding="utf-8")
