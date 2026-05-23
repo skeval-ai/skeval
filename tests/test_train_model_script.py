@@ -43,6 +43,7 @@ def test_train_model_main_uses_fit_with_constructor_hyperparams(monkeypatch, tmp
             return self
 
         def save(self, save_path):
+            """Records `.save()` was called and with what path"""        
             calls["save"] = save_path
 
     monkeypatch.setattr(module, "DatasetLoader", FakeDatasetLoader)
