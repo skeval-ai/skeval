@@ -4,6 +4,7 @@ from pathlib import Path
 
 
 def load_train_model_module():
+    """Loads `train_model.py` as an importable module."""
     repo_root = Path(__file__).parents[1]
     module_path = repo_root / "scripts" / "train_model.py"
     src_path = str(repo_root / "src")
