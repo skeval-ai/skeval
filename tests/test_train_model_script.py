@@ -31,7 +31,7 @@ def test_train_model_main_uses_fit_with_constructor_hyperparams(monkeypatch, tmp
         @staticmethod
         def load_csv(path, text_col, label_col):
             calls["load_csv"] = (path, text_col, label_col)
-            return ["hello", "bye"], ["fact", "greeting"]
+            return ["Sun rises from east", "I am feeling happy"], ["fact","emotion"]
 
     class FakeSentenceClassifier:
         def __init__(self, **kwargs):
