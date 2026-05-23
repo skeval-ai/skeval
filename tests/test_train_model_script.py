@@ -88,5 +88,5 @@ def test_train_model_main_uses_fit_with_constructor_hyperparams(monkeypatch, tmp
         "batch_size": 3,
         "lr": 0.1,
     }
-    assert calls["fit"] == (["hello", "bye"], ["fact", "greeting"])
+    assert calls["fit"] == (["Sun rises from east", "I am feeling happy"], ["fact", "emotion"])
     assert calls["save"] == str(save_dir)
