@@ -28,6 +28,7 @@ def test_train_model_main_uses_fit_with_constructor_hyperparams(monkeypatch, tmp
     calls = {}
 
     class FakeDatasetLoader:
+        """Loads fake data for testing."""
         @staticmethod
         def load_csv(path, text_col, label_col):
             calls["load_csv"] = (path, text_col, label_col)
