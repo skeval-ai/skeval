@@ -143,9 +143,7 @@ class DatasetLoader:
                         f"Malformed JSON on line {line_num}: {exc.msg}"
                     ) from exc
 
-                missing_keys = [
-                    key for key in (text_key, label_key) if key not in data
-                ]
+                missing_keys = [key for key in (text_key, label_key) if key not in data]
                 if missing_keys:
                     missing = ", ".join(missing_keys)
                     expected = ", ".join((text_key, label_key))
