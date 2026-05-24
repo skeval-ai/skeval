@@ -24,8 +24,8 @@ jobs:
         run: echo "number=$(cat pr_number.txt)" >> $GITHUB_OUTPUT
 
       - name: Post coverage comment
-        uses: MishaKav/pytest-coverage-comment@main
+        uses: MishaKav/pytest-coverage-comment@v1.0.26
         with:
-          pytest-coverage-path: ./coverage.xml
+          pytest-coverage-path: ./pytest-coverage.txt
           junitxml-path: ./pytest.xml
           issue-number: ${{ steps.pr.outputs.number }}

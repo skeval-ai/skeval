@@ -113,3 +113,12 @@ exclude = [".git", "__pycache__", "build", "dist", ".venv"]
 [tool.bandit]
 targets = ["src/"]
 exclude_dirs = ["tests", "scripts"]
+
+[tool.pydocstyle]
+convention = "google"
+add-ignore = [
+    "D100",  # missing docstring in public module
+    "D104",  # missing docstring in public package
+    "D105",  # missing docstring in magic method
+    "D107",  # missing docstring in __init__
+]

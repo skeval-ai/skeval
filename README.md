@@ -461,7 +461,7 @@ Your training data is likely class-imbalanced or too small. Use at least 10–20
 
 This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for the full text.
 
-Copyright (c) 2024 skeval Contributors.
+Copyright (c) 2026 skeval Contributors.
 
 Third-party dependencies are governed by their respective licenses (PyTorch — BSD-3, scikit-learn — BSD-3, NumPy — BSD-3, pandas — BSD-3).
 

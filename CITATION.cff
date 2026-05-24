@@ -9,6 +9,7 @@ repository-code: "https://github.com/skeval-ai/skeval"
 date-released: "2026-05-21"
 authors:
   - name: "skeval Contributors"
+    type: entity
     website: "https://github.com/skeval-ai"
 keywords:
   - nlp
