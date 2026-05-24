@@ -3,8 +3,8 @@
 This package provides tools to classify and evaluate LLM outputs based on
 semantic sentence types: facts, emotions, opinions, and instructions.
 
-Example
--------
+Example:
+--------
     >>> from skeval.classifier import SentenceClassifier
     >>> from skeval.evaluator import Evaluator
     >>> classifier = SentenceClassifier()

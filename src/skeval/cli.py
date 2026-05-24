@@ -77,6 +77,7 @@ def _evaluate(args: argparse.Namespace) -> None:
 
 
 def main() -> None:
+    """Run the skeval command-line interface."""
     parser = argparse.ArgumentParser(
         prog="skeval",
         description="skeval — Semantic Evaluation Layer for LLMs",
