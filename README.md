@@ -10,6 +10,7 @@
 [![Release](https://img.shields.io/pypi/v/skeval?label=release)](https://pypi.org/project/skeval/)
 [![Repo Status](https://img.shields.io/badge/repo%20status-Active-brightgreen)](https://github.com/skeval-ai/skeval)
 [![Tests](https://github.com/skeval-ai/skeval/actions/workflows/tests.yml/badge.svg)](https://github.com/skeval-ai/skeval/actions/workflows/tests.yml)
+[![Coverage](https://codecov.io/gh/skeval-ai/skeval/branch/main/graph/badge.svg)](https://codecov.io/gh/skeval-ai/skeval)
 [![Security](https://github.com/skeval-ai/skeval/actions/workflows/security.yml/badge.svg)](https://github.com/skeval-ai/skeval/actions/workflows/security.yml)
 
 ---
