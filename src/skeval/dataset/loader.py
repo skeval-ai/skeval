@@ -135,8 +135,25 @@ class DatasetLoader:
         sentences: List[str] = []
         labels: List[str] = []
         with open(filepath, "r", encoding="utf-8") as f:
-            for line in f:
-                data = json.loads(line)
+            for line_num, line in enumerate(f, start=1):
+                try:
+                    data = json.loads(line)
+                except json.JSONDecodeError as exc:
+                    raise ValueError(
+                        f"Malformed JSON on line {line_num}: {exc.msg}"
+                    ) from exc
+
+                missing_keys = [
+                    key for key in (text_key, label_key) if key not in data
+                ]
+                if missing_keys:
+                    missing = ", ".join(missing_keys)
+                    expected = ", ".join((text_key, label_key))
+                    raise ValueError(
+                        f"Missing required JSON key(s) on line {line_num}: "
+                        f"{missing}. Expected keys: {expected}"
+                    )
+
                 sentences.append(data[text_key])
                 labels.append(data[label_key])
         return sentences, labels

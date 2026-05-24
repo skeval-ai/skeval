@@ -188,6 +188,30 @@ def test_dataset_loader_json(tmp_path):
     assert labels == ["fact", "emotion"]
 
 
+def test_dataset_loader_json_reports_malformed_line(tmp_path):
+    """load_json() should report the line number for malformed JSONL input."""
+    json_file = tmp_path / "data.jsonl"
+    with open(json_file, "w") as f:
+        f.write(json.dumps({"text": "s1", "label": "fact"}) + "\n")
+        f.write('{"text": "s2", "label": "emotion"\n')
+
+    with pytest.raises(ValueError, match="Malformed JSON on line 2"):
+        DatasetLoader.load_json(str(json_file), "text", "label")
+
+
+def test_dataset_loader_json_reports_missing_key(tmp_path):
+    """load_json() should report missing expected keys with the failing line."""
+    json_file = tmp_path / "data.jsonl"
+    with open(json_file, "w") as f:
+        f.write(json.dumps({"text": "s1"}) + "\n")
+
+    with pytest.raises(
+        ValueError,
+        match="Missing required JSON key\\(s\\) on line 1: label",
+    ):
+        DatasetLoader.load_json(str(json_file), "text", "label")
+
+
 def test_create_dataloader_batches():
     """create_dataloader() should yield batches with correctly shaped label tensors."""
     vocab = VocabBuilder()
