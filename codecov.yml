@@ -1,0 +1,19 @@
+coverage:
+  status:
+    project:
+      default:
+        target: auto      # must not drop below base branch coverage
+        threshold: 1%     # allow up to 1% drop before failing
+        base: auto
+    patch:
+      default:
+        target: 80%       # new code added in a PR must be at least 80% covered
+        threshold: 1%
+
+comment:
+  layout: "diff, flags, files"
+  behavior: default
+  require_changes: false       # post comment even if coverage did not change
+  require_base: false          # post even if no base report exists
+  require_head: true           # must have a head report to post
+  hide_project_coverage: false # show overall project coverage, not just patch
