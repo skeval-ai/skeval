@@ -13,7 +13,7 @@ Create a :class:`~skeval.classifier.SentenceClassifier` and call :meth:`~skeval.
 
    from skeval.classifier import SentenceClassifier
 
-   classifier = SentenceClassifier(embed_dim=64, random_state=42)
+   classifier = SentenceClassifier(embed_dim=64, epochs=20, lr=0.01, random_state=42)
 
    sentences = [
        "Water boils at 100 degrees Celsius",
@@ -32,7 +32,7 @@ Create a :class:`~skeval.classifier.SentenceClassifier` and call :meth:`~skeval.
        "instruction", "instruction",
    ]
 
-   classifier.fit(sentences, labels, epochs=20, lr=0.01)
+   classifier.fit(sentences, labels)
 
 The label vocabulary is inferred automatically from the labels you provide — you are not limited to the four default categories.
 
@@ -45,11 +45,13 @@ Pass ``val_split`` to hold out a fraction of training data for validation, and `
 
    classifier = SentenceClassifier(
        embed_dim=64,
+       epochs=100,
+       lr=0.01,
        val_split=0.2,
        patience=5,
        random_state=42,
    )
-   classifier.fit(sentences, labels, epochs=100, lr=0.01)
+   classifier.fit(sentences, labels)
 
 DataLoader Performance Options
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
