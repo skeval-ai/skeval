@@ -30,3 +30,15 @@ jobs:
       run: flake8 src/ tests/
     - name: Type check (mypy)
       run: mypy src/
+
+    - name: Install extra quality tools
+      run: pip install pydocstyle vulture codespell
+
+    - name: Docstring style (pydocstyle)
+      run: pydocstyle src/
+
+    - name: Dead code detection (vulture)
+      run: vulture src/ --min-confidence 80
+
+    - name: Spell check (codespell)
+      run: codespell src/ docs/ *.md *.rst
