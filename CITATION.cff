@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use skeval in your research, please cite it using the metadata below."
+title: skeval
+abstract: "skeval is a lightweight Python library for semantic sentence classification and LLM output evaluation. It classifies sentences into semantic categories (fact, emotion, opinion, instruction) and provides evaluation metrics for LLM outputs."
+version: 0.2.1
+license: MIT
+url: "https://skeval.readthedocs.io"
+repository-code: "https://github.com/skeval-ai/skeval"
+date-released: "2026-05-21"
+authors:
+  - name: "skeval Contributors"
+    website: "https://github.com/skeval-ai"
+keywords:
+  - nlp
+  - llm
+  - evaluation
+  - text-classification
+  - sentence-classification
+  - pytorch
+  - scikit-learn
+  - machine-learning
+  - python
