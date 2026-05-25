@@ -297,7 +297,8 @@ class SentenceClassifier(BaseEstimator):  # type: ignore[misc]
 
     def _batch_forward(self, X: List[str]) -> List[torch.Tensor]:
         """Run the model in batches and return a list of per-batch logit tensors."""
-        assert self.model is not None
+        if self.model is None:
+            raise RuntimeError("Model is not fitted. Call `fit()` or `load()` first.")
         self.model.eval()
         batch_logits: List[torch.Tensor] = []
         with torch.no_grad():
