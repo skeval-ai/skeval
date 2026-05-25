@@ -15,8 +15,14 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
+    "sphinx.ext.extlinks",
     "myst_parser",
 ]
+
+extlinks = {
+    "issue": ("https://github.com/skeval-ai/skeval/issues/%s", "issue #%s"),
+    "user": ("https://github.com/%s", "@%s"),
+}
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),

@@ -25,7 +25,7 @@ Fixed
 .. _0.2.1: https://github.com/skeval-ai/skeval/compare/v0.2.0...v0.2.1
 
 `0.2.1`_ (2026-05-21)
-======================
+----------------------
 
 Fixed
 ~~~~~
@@ -52,7 +52,7 @@ New Contributors
 .. _0.2.0: https://github.com/skeval-ai/skeval/compare/v0.1.2...v0.2.0
 
 `0.2.0`_ (2026-05-19)
-======================
+----------------------
 
 Release highlights
 ~~~~~~~~~~~~~~~~~~
@@ -129,7 +129,7 @@ Changed
 .. _0.1.2: https://github.com/skeval-ai/skeval/compare/v0.1.1...v0.1.2
 
 `0.1.2`_ (2026-04-25)
-======================
+----------------------
 
 Changed
 ~~~~~~~
@@ -148,7 +148,7 @@ Fixed
 .. _0.1.1: https://github.com/skeval-ai/skeval/compare/v0.1.0...v0.1.1
 
 `0.1.1`_ (2026-04-25)
-======================
+----------------------
 
 Fixed
 ~~~~~
@@ -171,7 +171,7 @@ Fixed
 .. _0.1.0: https://github.com/skeval-ai/skeval/commits/v0.1.0
 
 `0.1.0`_ (2026-04-25)
-======================
+----------------------
 
 Release highlights
 ~~~~~~~~~~~~~~~~~~
