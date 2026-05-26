@@ -10,9 +10,12 @@ from skeval.cli import _evaluate, _train
 def _make_args(**kwargs):
     """Build a simple namespace for _train / _evaluate."""
     import argparse
-
     return argparse.Namespace(**kwargs)
 
+
+# ---------------------------------------------------------------------------
+# --version
+# ---------------------------------------------------------------------------
 
 def test_cli_version():
     """skeval --version must exit 0 and print the current version string."""
@@ -24,6 +27,10 @@ def test_cli_version():
     assert result.returncode == 0
     assert "0.2.2" in result.stdout
 
+
+# ---------------------------------------------------------------------------
+# _train — error paths
+# ---------------------------------------------------------------------------
 
 def test_train_file_not_found(tmp_path, capsys):
     """_train must print an error and exit 1 when the data file is missing."""
@@ -63,6 +70,10 @@ def test_train_unsupported_format(tmp_path, capsys):
     assert "unsupported format" in capsys.readouterr().out
 
 
+# ---------------------------------------------------------------------------
+# _train — success paths
+# ---------------------------------------------------------------------------
+
 def test_train_csv(tmp_path, monkeypatch, capsys):
     """_train must load CSV, call fit(), and save the model."""
     csv_file = tmp_path / "data.csv"
@@ -82,9 +93,8 @@ def test_train_csv(tmp_path, monkeypatch, capsys):
         def save(self, path):
             calls["save"] = path
 
-    import skeval.cli as cli_module
-
-    monkeypatch.setattr(cli_module, "SentenceClassifier", FakeClassifier, raising=False)
+    import skeval.classifier as clf_mod
+    monkeypatch.setattr(clf_mod, "SentenceClassifier", FakeClassifier)
 
     args = _make_args(
         data=str(csv_file),
@@ -127,9 +137,8 @@ def test_train_jsonl(tmp_path, monkeypatch):
         def save(self, path):
             calls["save"] = path
 
-    import skeval.cli as cli_module
-
-    monkeypatch.setattr(cli_module, "SentenceClassifier", FakeClassifier, raising=False)
+    import skeval.classifier as clf_mod
+    monkeypatch.setattr(clf_mod, "SentenceClassifier", FakeClassifier)
 
     args = _make_args(
         data=str(jsonl_file),
@@ -146,6 +155,10 @@ def test_train_jsonl(tmp_path, monkeypatch):
     assert "fit" in calls
     assert calls["save"] == str(save_dir)
 
+
+# ---------------------------------------------------------------------------
+# _evaluate — error paths
+# ---------------------------------------------------------------------------
 
 def test_evaluate_model_not_found(tmp_path, capsys):
     """_evaluate must print an error and exit 1 when model.pt is missing."""
@@ -202,10 +215,14 @@ def test_evaluate_unsupported_format(tmp_path, capsys):
     assert "unsupported format" in capsys.readouterr().out
 
 
+# ---------------------------------------------------------------------------
+# _evaluate — success paths
+# ---------------------------------------------------------------------------
+
 def _setup_evaluate(tmp_path, monkeypatch, data_file, output=None):
     """Shared setup for _evaluate success tests."""
     model_dir = tmp_path / "model"
-    model_dir.mkdir()
+    model_dir.mkdir(exist_ok=True)
     (model_dir / "model.pt").write_bytes(b"")
 
     fake_results = {"accuracy": 1.0, "per_class": {}}
@@ -221,10 +238,10 @@ def _setup_evaluate(tmp_path, monkeypatch, data_file, output=None):
         def evaluate(self, _predictions, _ground_truth):
             return fake_results
 
-    import skeval.cli as cli_module
-
-    monkeypatch.setattr(cli_module, "SentenceClassifier", FakeClassifier, raising=False)
-    monkeypatch.setattr(cli_module, "Evaluator", FakeEvaluator, raising=False)
+    import skeval.classifier as clf_mod
+    import skeval.evaluator as eval_mod
+    monkeypatch.setattr(clf_mod, "SentenceClassifier", FakeClassifier)
+    monkeypatch.setattr(eval_mod, "Evaluator", FakeEvaluator)
 
     return _make_args(
         model_dir=str(model_dir),
@@ -241,8 +258,7 @@ def test_evaluate_csv(tmp_path, monkeypatch, capsys):
     csv_file.write_text("text,label\nhello world,fact\n")
     args = _setup_evaluate(tmp_path, monkeypatch, csv_file)
     _evaluate(args)
-    out = capsys.readouterr().out
-    assert "accuracy" in out
+    assert "accuracy" in capsys.readouterr().out
 
 
 def test_evaluate_jsonl(tmp_path, monkeypatch, capsys):
@@ -251,8 +267,7 @@ def test_evaluate_jsonl(tmp_path, monkeypatch, capsys):
     jsonl_file.write_text('{"text": "hello", "label": "fact"}\n')
     args = _setup_evaluate(tmp_path, monkeypatch, jsonl_file)
     _evaluate(args)
-    out = capsys.readouterr().out
-    assert "accuracy" in out
+    assert "accuracy" in capsys.readouterr().out
 
 
 def test_evaluate_output_flag(tmp_path, monkeypatch, capsys):
