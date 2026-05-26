@@ -26,10 +26,13 @@ def _train(args: argparse.Namespace) -> None:
         sys.exit(1)
 
     print(f"Loaded {len(sentences)} samples.")
-    classifier = SentenceClassifier(embed_dim=args.embed_dim)
-    classifier.train(
-        sentences, labels, epochs=args.epochs, batch_size=args.batch_size, lr=args.lr
+    classifier = SentenceClassifier(
+        embed_dim=args.embed_dim,
+        epochs=args.epochs,
+        batch_size=args.batch_size,
+        lr=args.lr,
     )
+    classifier.fit(sentences, labels)
     classifier.save(args.save_dir)
     print(f"Model saved to {args.save_dir}")
 
