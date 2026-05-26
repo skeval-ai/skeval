@@ -6,10 +6,26 @@ All notable changes to skeval are documented here.
 The format follows `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`_,
 and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
-.. _Unreleased: https://github.com/skeval-ai/skeval/compare/v0.2.1...HEAD
+.. _Unreleased: https://github.com/skeval-ai/skeval/compare/v0.2.2...HEAD
 
 `Unreleased`_
 -------------
+
+----
+
+.. _0.2.2: https://github.com/skeval-ai/skeval/compare/v0.2.1...v0.2.2
+
+`0.2.2`_ (2026-05-26)
+----------------------
+
+Release highlights
+~~~~~~~~~~~~~~~~~~
+
+- Deprecated ``train()`` fully replaced by ``fit()`` across all examples,
+  scripts, and documentation — the API is now consistent with scikit-learn
+  conventions throughout.
+- ``assert`` in ``_batch_forward`` replaced with an explicit ``RuntimeError``
+  so unfitted-model errors survive ``python -O`` optimised mode.
 
 Fixed
 ~~~~~
@@ -19,6 +35,49 @@ Fixed
   causing an unhelpful ``AttributeError`` from PyTorch when calling
   ``predict()`` or ``predict_proba()`` on an unfitted model.
   See :issue:`113` by :user:`direkkakkar319-ops`.
+- Replace deprecated ``train()`` with ``fit()`` in ``scripts/train_model.py``.
+  See :issue:`111` by :user:`iccccccccccccc`.
+- Replace deprecated ``train()`` with ``fit()`` in ``examples/01_quickstart.py``.
+  See :issue:`112` by :user:`iccccccccccccc`.
+- Replace deprecated ``train()`` with ``fit()`` in ``examples/02_save_and_load.py``.
+  See :issue:`135` by :user:`direkkakkar319-ops`.
+- Replace deprecated ``train()`` with ``fit()`` in ``examples/03_evaluation.py``.
+  See :issue:`133` by :user:`Storm1289`.
+- Replace deprecated ``train()`` with ``fit()`` in ``examples/04_custom_labels.py``.
+  See :issue:`134` by :user:`direkkakkar319-ops`.
+- Update ``train()`` to ``fit()`` in ``docs/usage.rst``.
+  See :issue:`126` by :user:`direkkakkar319-ops`.
+- Move ``epochs`` argument to ``SentenceClassifier`` constructor in
+  ``docs/index.rst``.
+  See :issue:`127` by :user:`direkkakkar319-ops`.
+
+Changed
+~~~~~~~
+
+- Updated repository dependencies.
+  See :issue:`129` by :user:`direkkakkar319-ops`.
+- Bumped ``actions/labeler`` from 5 to 6.
+  By :user:`dependabot`.
+- Bumped ``actions/upload-artifact`` from 4 to 7.
+  By :user:`dependabot`.
+
+Added
+~~~~~
+
+- Documentation link added to ``README.md``.
+  See :issue:`100` by :user:`YuuGR1337`.
+- New CI/CD labels.
+  See :issue:`119` by :user:`direkkakkar319-ops`.
+- Test coverage for all example scripts.
+  See :issue:`128` by :user:`atharrva01`.
+
+New Contributors
+~~~~~~~~~~~~~~~~
+
+- :user:`YuuGR1337` made their first contribution.
+- :user:`iccccccccccccc` made their first contribution.
+- :user:`Storm1289` made their first contribution.
+- :user:`atharrva01` made their first contribution.
 
 ----
 
