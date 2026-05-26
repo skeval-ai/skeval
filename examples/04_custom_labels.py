@@ -37,8 +37,8 @@ labels = [
     "complaint",
 ]
 
-classifier = SentenceClassifier(embed_dim=32)
-classifier.train(sentences, labels, epochs=40, lr=0.01)
+classifier = SentenceClassifier(embed_dim=32, epochs=40, lr=0.01)
+classifier.fit(sentences, labels)
 
 test_sentences = [
     "My parcel is lost",
