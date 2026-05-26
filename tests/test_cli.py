@@ -10,12 +10,14 @@ from skeval.cli import _evaluate, _train
 def _make_args(**kwargs):
     """Build a simple namespace for _train / _evaluate."""
     import argparse
+
     return argparse.Namespace(**kwargs)
 
 
 # ---------------------------------------------------------------------------
 # --version
 # ---------------------------------------------------------------------------
+
 
 def test_cli_version():
     """skeval --version must exit 0 and print the current version string."""
@@ -31,6 +33,7 @@ def test_cli_version():
 # ---------------------------------------------------------------------------
 # _train — error paths
 # ---------------------------------------------------------------------------
+
 
 def test_train_file_not_found(tmp_path, capsys):
     """_train must print an error and exit 1 when the data file is missing."""
@@ -74,6 +77,7 @@ def test_train_unsupported_format(tmp_path, capsys):
 # _train — success paths
 # ---------------------------------------------------------------------------
 
+
 def test_train_csv(tmp_path, monkeypatch, capsys):
     """_train must load CSV, call fit(), and save the model."""
     csv_file = tmp_path / "data.csv"
@@ -94,6 +98,7 @@ def test_train_csv(tmp_path, monkeypatch, capsys):
             calls["save"] = path
 
     import skeval.classifier as clf_mod
+
     monkeypatch.setattr(clf_mod, "SentenceClassifier", FakeClassifier)
 
     args = _make_args(
@@ -138,6 +143,7 @@ def test_train_jsonl(tmp_path, monkeypatch):
             calls["save"] = path
 
     import skeval.classifier as clf_mod
+
     monkeypatch.setattr(clf_mod, "SentenceClassifier", FakeClassifier)
 
     args = _make_args(
@@ -159,6 +165,7 @@ def test_train_jsonl(tmp_path, monkeypatch):
 # ---------------------------------------------------------------------------
 # _evaluate — error paths
 # ---------------------------------------------------------------------------
+
 
 def test_evaluate_model_not_found(tmp_path, capsys):
     """_evaluate must print an error and exit 1 when model.pt is missing."""
@@ -219,6 +226,7 @@ def test_evaluate_unsupported_format(tmp_path, capsys):
 # _evaluate — success paths
 # ---------------------------------------------------------------------------
 
+
 def _setup_evaluate(tmp_path, monkeypatch, data_file, output=None):
     """Shared setup for _evaluate success tests."""
     model_dir = tmp_path / "model"
@@ -240,6 +248,7 @@ def _setup_evaluate(tmp_path, monkeypatch, data_file, output=None):
 
     import skeval.classifier as clf_mod
     import skeval.evaluator as eval_mod
+
     monkeypatch.setattr(clf_mod, "SentenceClassifier", FakeClassifier)
     monkeypatch.setattr(eval_mod, "Evaluator", FakeEvaluator)
 
