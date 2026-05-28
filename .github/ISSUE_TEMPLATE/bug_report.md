@@ -1,8 +1,8 @@
 ---
 name: Bug Report
 about: Create a report to help us improve
-title: "[BUG] "
-labels: bug
+title: "bug"
+labels: "bug🐛"
 assignees: ''
 ---
 **Describe the bug**
@@ -33,8 +33,23 @@ Add any other context about the problem here.
 <details>
 
 <!--
-Please run the following code snippet and paste the output here:
+Please run the following snippet and paste the output here:
 -->
+
+```python
+import platform
+import skeval
+import torch
+import sklearn
+import numpy
+
+print("skeval:   ", skeval.__version__)
+print("torch:    ", torch.__version__)
+print("sklearn:  ", sklearn.__version__)
+print("numpy:    ", numpy.__version__)
+print("python:   ", platform.python_version())
+print("platform: ", platform.platform())
+```
 
 </details>
 

@@ -23,10 +23,22 @@ jobs:
         python -m pip install --upgrade pip
         pip install black isort flake8 mypy
     - name: Check formatting (black)
-      run: black --check --target-version py310 src/ tests/
+      run: black --check src/ tests/
     - name: Check import order (isort)
       run: isort --check-only src/ tests/
     - name: Lint (flake8)
       run: flake8 src/ tests/
     - name: Type check (mypy)
       run: mypy src/
+
+    - name: Install extra quality tools
+      run: pip install pydocstyle vulture codespell
+
+    - name: Docstring style (pydocstyle)
+      run: pydocstyle src/ --config=pyproject.toml
+
+    - name: Dead code detection (vulture)
+      run: vulture src/ --min-confidence 80
+
+    - name: Spell check (codespell)
+      run: codespell src/ docs/ --skip="*.pyc,*.xml,*.json,*.pt"

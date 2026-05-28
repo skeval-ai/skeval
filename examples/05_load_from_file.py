@@ -61,8 +61,8 @@ with tempfile.TemporaryDirectory() as tmpdir:
     print(f"Loaded {len(train_sentences)} training samples from CSV.")
 
     # --- Train ---
-    classifier = SentenceClassifier(embed_dim=64)
-    classifier.train(train_sentences, train_labels, epochs=30, lr=0.01)
+    classifier = SentenceClassifier(embed_dim=64, epochs=30, lr=0.01)
+    classifier.fit(train_sentences, train_labels)
 
     # --- Load from JSONL ---
     test_sentences, test_labels = DatasetLoader.load_json(jsonl_path, "text", "label")
