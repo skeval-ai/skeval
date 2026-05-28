@@ -183,11 +183,12 @@ def test_dataset_loader_csv_missing_columns(tmp_path):
     df = pd.DataFrame({"body": ["s1"], "target": ["fact"]})
     df.to_csv(csv_file, index=False)
 
-    with pytest.raises(ValueError, match="Missing required CSV column\\(s\\): text"):
+    with pytest.raises(ValueError) as exc_info:
         DatasetLoader.load_csv(str(csv_file), "text", "label")
 
-    with pytest.raises(ValueError, match="Available columns: body, target"):
-        DatasetLoader.load_csv(str(csv_file), "text", "label")
+    error_message = str(exc_info.value)
+    assert "Missing required CSV column(s): text, label" in error_message
+    assert "Available columns: body, target" in error_message
 
 
 def test_dataset_loader_json(tmp_path):
