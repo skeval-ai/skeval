@@ -27,8 +27,8 @@ labels = [
     "instruction",
 ]
 
-classifier = SentenceClassifier(embed_dim=64)
-classifier.train(sentences, labels, epochs=30, lr=0.01)
+classifier = SentenceClassifier(embed_dim=64, epochs=30, lr=0.01)
+classifier.fit(sentences, labels)
 
 test = [
     "The sky is blue",

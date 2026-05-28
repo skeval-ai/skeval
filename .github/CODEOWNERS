@@ -1,0 +1,37 @@
+# CODEOWNERS
+# Each line assigns ownership of a path to one or more GitHub users or teams.
+# The last matching rule takes precedence.
+# Owners are automatically requested for review when a PR touches their paths.
+
+# Default — everything not matched below
+* @direkkakkar319-ops
+
+# Core classifier
+src/skeval/classifier/         @direkkakkar319-ops
+
+# Evaluator and metrics
+src/skeval/evaluator/          @direkkakkar319-ops
+src/skeval/metrics/            @direkkakkar319-ops
+
+# Dataset utilities
+src/skeval/dataset/            @direkkakkar319-ops
+
+# Model selection
+src/skeval/model_selection/    @direkkakkar319-ops
+
+# CLI
+src/skeval/cli.py              @direkkakkar319-ops
+
+# Tests
+tests/                         @direkkakkar319-ops
+
+# CI/CD and GitHub config
+.github/                       @direkkakkar319-ops
+
+# Documentation
+docs/                          @direkkakkar319-ops
+README.md                      @direkkakkar319-ops
+
+# Release and packaging
+pyproject.toml                 @direkkakkar319-ops
+setup.cfg                      @direkkakkar319-ops

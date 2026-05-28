@@ -35,7 +35,7 @@ Train a classifier and evaluate it in a few lines:
    from skeval.classifier import SentenceClassifier
    from skeval.evaluator import Evaluator
 
-   classifier = SentenceClassifier(embed_dim=64)
+   classifier = SentenceClassifier(embed_dim=64, epochs=20)
 
    sentences = [
        "Water boils at 100 degrees Celsius",
@@ -45,7 +45,7 @@ Train a classifier and evaluate it in a few lines:
    ]
    labels = ["fact", "emotion", "opinion", "instruction"]
 
-   classifier.fit(sentences, labels, epochs=20)
+   classifier.fit(sentences, labels)
 
    predictions = classifier.predict(["The sky is blue", "I am sad"])
    print(predictions)  # e.g. ['fact', 'emotion']

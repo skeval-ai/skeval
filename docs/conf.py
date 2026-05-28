@@ -8,15 +8,21 @@ project = "skeval"
 copyright = "2026, skeval Contributors"
 author = "skeval Contributors"
 version = "0.2"
-release = "0.2.1"
+release = "0.2.2"
 
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
+    "sphinx.ext.extlinks",
     "myst_parser",
 ]
+
+extlinks = {
+    "issue": ("https://github.com/skeval-ai/skeval/issues/%s", "issue #%s"),
+    "user": ("https://github.com/%s", "@%s"),
+}
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),

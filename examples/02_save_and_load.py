@@ -10,8 +10,8 @@ sentences = [
 ]
 labels = ["fact", "emotion", "opinion", "instruction"]
 
-classifier = SentenceClassifier(embed_dim=64)
-classifier.train(sentences, labels, epochs=20)
+classifier = SentenceClassifier(embed_dim=64, epochs=2)
+classifier.fit(sentences, labels)
 classifier.save("saved_model/")
 print("Model saved to saved_model/")
 

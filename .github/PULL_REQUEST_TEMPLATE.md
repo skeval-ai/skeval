@@ -1,39 +1,49 @@
 <!--
-🙌 Thanks for contributing a pull request!
-
-👀 Please ensure you have taken a look at the contribution guidelines:
-
+Thanks for contributing to skeval!
+Please fill out the sections below before requesting a review.
 -->
 
 #### Reference Issues/PRs
 <!--
 Example: Fixes #1234. See also #3456.
-Please use keywords (e.g., Fixes) to create link to the issues or pull requests
-you resolved, so that they will automatically be closed when your pull request
-is merged.
+Use keywords (Fixes, Closes, Resolves) to auto-close the linked issue on merge.
 -->
 
+#### What does this implement/fix?
+<!-- A short description of the change and why it is needed. -->
 
-#### What does this implement/fix? Explain your changes.
+---
 
+#### Checklist
+
+**Code changes**
+- [ ] My code follows the project style (`black`, `isort`, `flake8`)
+- [ ] I have added or updated tests to cover my changes
+- [ ] All existing tests pass locally (`pytest tests/`)
+- [ ] I have added type annotations where applicable
+
+**Documentation**
+- [ ] I have updated the relevant docstrings
+- [ ] I have updated `docs/` or `README.md` if the public API or behaviour changed
+- [ ] I have updated `docs/changelog.rst` with a summary of my change
+
+**General**
+- [ ] My branch is up to date with `main`
+- [ ] I have linked the related issue above
+- [ ] I have kept this PR focused (one issue per PR)
+
+---
 
 #### AI usage disclosure
 <!--
-If AI tools were involved in creating this PR, please check all boxes that apply
-below and make sure that you adhere to our Automated Contributions
+If AI tools were involved, check all that apply.
 -->
 I used AI assistance for:
-- [ ] Code generation (e.g., when writing an implementation or fixing a bug)
+- [ ] Code generation (e.g., writing an implementation or fixing a bug)
 - [ ] Test/benchmark generation
 - [ ] Documentation (including examples)
 - [ ] Research and understanding
 
+---
 
 #### Any other comments?
-
-
-<!--
-Thanks for contributing to skeval. Please keep PRs focused and include the
-relevant validation commands for code or documentation changes.
-Thanks for contributing!
--->
