@@ -30,6 +30,8 @@ class Evaluator:
 
         Raises:
             ValueError: If either list is empty or the lengths do not match.
+            ValueError: If the combined label set contains fewer than 2 distinct
+                values (propagated from ``compute_metrics``).
         """
         if not isinstance(predictions, (list, tuple)) or len(predictions) == 0:
             raise ValueError("predictions must be a non-empty list of strings.")
