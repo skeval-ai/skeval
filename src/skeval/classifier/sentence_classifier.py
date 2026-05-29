@@ -458,8 +458,13 @@ class SentenceClassifier(BaseEstimator):  # type: ignore[misc]
         Args:
             save_dir: Directory that was passed to a previous ``save()`` call.
         """
-        with open(os.path.join(save_dir, "metadata.json"), "r") as f:
-            meta = json.load(f)
+        try:
+            with open(os.path.join(save_dir, "metadata.json"), "r") as f:
+                meta = json.load(f)
+        except FileNotFoundError:
+            raise FileNotFoundError(
+                f"No saved model found in '{save_dir}'. Call save() first."
+            )
 
         self.embed_dim = meta["embed_dim"]
         self.epochs = meta.get("epochs", self.epochs)
