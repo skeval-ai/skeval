@@ -244,6 +244,13 @@ def test_save_before_fit_raises():
         clf.save("/tmp/nowhere")
 
 
+def test_load_missing_directory_raises():
+    """load() must raise FileNotFoundError with a helpful message for missing dirs."""
+    clf = SentenceClassifier()
+    with pytest.raises(FileNotFoundError, match="No saved model found"):
+        clf.load("/nonexistent/path/xyz123")
+
+
 def test_load_restores_model(fitted_clf, tmp_path):
     """load() must restore embed_dim, vocab, label encoder, and the model weights."""
     save_dir = str(tmp_path / "out")

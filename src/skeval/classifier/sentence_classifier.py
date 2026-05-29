@@ -458,8 +458,16 @@ class SentenceClassifier(BaseEstimator):  # type: ignore[misc]
         Args:
             save_dir: Directory that was passed to a previous ``save()`` call.
         """
+        metadataPath = os.path.join(save_dir, "metadata.json")
+        modelPath = os.path.join(save_dir, "model.pt")
+
+        if not os.path.exists(metadataPath) or not os.path.exists(modelPath):
+            raise FileNotFoundError(
+                f"No saved model found in '{save_dir}'. Call save() first."
+            )
+
         try:
-            with open(os.path.join(save_dir, "metadata.json"), "r") as f:
+            with open(metadataPath, "r") as f:
                 meta = json.load(f)
         except FileNotFoundError:
             raise FileNotFoundError(
