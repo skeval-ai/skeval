@@ -54,7 +54,7 @@ jobs:
 
     - name: Upload coverage to Codecov
       if: matrix.python-version == '3.10'
-      uses: codecov/codecov-action@v5
+      uses: codecov/codecov-action@v6
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         slug: skeval-ai/skeval
