@@ -26,11 +26,18 @@ def compute_metrics(y_true: List[str], y_pred: List[str]) -> Dict[str, Any]:
     """
     acc = accuracy_score(y_true, y_pred)
 
-    # zero_division=0 prevents warnings if a class is never predicted
-    report = classification_report(y_true, y_pred, output_dict=True, zero_division=0)
-
-    # Extract unique labels in sorted order to map the confusion matrix
+    # Sorted union of all labels seen in either input
     labels = sorted(list(set(y_true) | set(y_pred)))
+
+    if len(labels) < 2:
+        raise ValueError(
+            f"compute_metrics requires at least 2 distinct labels, got: {labels}"
+        )
+
+    # zero_division=0 prevents warnings if a class is never predicted
+    report = classification_report(
+        y_true, y_pred, labels=labels, output_dict=True, zero_division=0
+    )
     cm = confusion_matrix(y_true, y_pred, labels=labels)
 
     return {
