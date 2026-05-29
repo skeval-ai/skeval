@@ -466,13 +466,8 @@ class SentenceClassifier(BaseEstimator):  # type: ignore[misc]
                 f"No saved model found in '{save_dir}'. Call save() first."
             )
 
-        try:
-            with open(metadataPath, "r") as f:
-                meta = json.load(f)
-        except FileNotFoundError:
-            raise FileNotFoundError(
-                f"No saved model found in '{save_dir}'. Call save() first."
-            )
+        with open(metadataPath, "r") as f:
+            meta = json.load(f)
 
         self.embed_dim = meta["embed_dim"]
         self.epochs = meta.get("epochs", self.epochs)
