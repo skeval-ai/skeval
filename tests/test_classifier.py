@@ -244,6 +244,13 @@ def test_save_before_fit_raises():
         clf.save("/tmp/nowhere")
 
 
+def test_load_missing_directory_raises():
+    """load() must raise FileNotFoundError with a helpful message for missing dirs."""
+    clf = SentenceClassifier()
+    with pytest.raises(FileNotFoundError, match="No saved model found"):
+        clf.load("/nonexistent/path/xyz123")
+
+
 def test_load_restores_model(fitted_clf, tmp_path):
     """load() must restore embed_dim, vocab, label encoder, and the model weights."""
     save_dir = str(tmp_path / "out")
@@ -284,3 +291,28 @@ def test_train_still_works():
         warnings.simplefilter("always")
         clf.train(SENTENCES, LABELS, epochs=1)
     assert clf.model is not None
+
+
+def test_train_batch_size_override():
+    """train() must apply batch_size override when provided."""
+    clf = SentenceClassifier(embed_dim=16, batch_size=32)
+    with warnings.catch_warnings(record=True):
+        warnings.simplefilter("always")
+        clf.train(SENTENCES, LABELS, epochs=1, batch_size=8)
+    assert clf.batch_size == 8
+
+
+def test_train_lr_override():
+    """train() must apply lr override when provided."""
+    clf = SentenceClassifier(embed_dim=16, lr=0.005)
+    with warnings.catch_warnings(record=True):
+        warnings.simplefilter("always")
+        clf.train(SENTENCES, LABELS, epochs=1, lr=0.123)
+    assert clf.lr == 0.123
+
+
+def test_fit_y_non_string_raises():
+    """fit() must raise ValueError when y contains non-string elements."""
+    clf = SentenceClassifier(embed_dim=16)
+    with pytest.raises(ValueError, match="All elements of y must be strings"):
+        clf.fit(SENTENCES, [1, 2, 3, 4])
