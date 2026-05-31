@@ -1,3 +1,5 @@
+import pytest
+
 from skeval.metrics import compute_metrics
 
 
@@ -73,7 +75,6 @@ def test_compute_metrics_macro_avg_present():
 
 
 def test_compute_metrics_single_class():
-    """compute_metrics should work correctly when only one class is present."""
-    results = compute_metrics(["fact", "fact"], ["fact", "fact"])
-    assert results["accuracy"] == 1.0
-    assert "fact" in results["per_class"]
+    """compute_metrics must raise ValueError when only one distinct label is present."""
+    with pytest.raises(ValueError, match="at least 2 distinct labels"):
+        compute_metrics(["fact", "fact"], ["fact", "fact"])
