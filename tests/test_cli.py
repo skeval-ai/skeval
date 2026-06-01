@@ -4,6 +4,7 @@ import sys
 
 import pytest
 
+from skeval import __version__
 from skeval.cli import _evaluate, _train
 
 
@@ -27,7 +28,7 @@ def test_cli_version():
         text=True,
     )
     assert result.returncode == 0
-    assert "0.2.2" in result.stdout
+    assert __version__ in result.stdout
 
 
 # ---------------------------------------------------------------------------

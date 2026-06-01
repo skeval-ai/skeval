@@ -6,10 +6,74 @@ All notable changes to skeval are documented here.
 The format follows `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`_,
 and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
-.. _Unreleased: https://github.com/skeval-ai/skeval/compare/v0.2.2...HEAD
+.. _Unreleased: https://github.com/skeval-ai/skeval/compare/v0.2.3...HEAD
 
 `Unreleased`_
 -------------
+
+----
+
+.. _0.2.3: https://github.com/skeval-ai/skeval/compare/v0.2.2...v0.2.3
+
+`0.2.3`_ (2026-06-02)
+----------------------
+
+Release highlights
+~~~~~~~~~~~~~~~~~~
+
+- ``compute_metrics`` now raises a clear ``ValueError`` when fewer than two
+  distinct labels are present — a 1×1 confusion matrix has no diagnostic value.
+- ``load()`` raises a user-friendly ``FileNotFoundError`` instead of a raw
+  Python traceback when the saved model directory does not exist.
+- CSV and JSONL dataset loaders now validate their inputs and report errors
+  clearly before any training begins.
+- Doc-build dependencies pinned to exact versions for fully reproducible
+  Read the Docs builds.
+
+Fixed
+~~~~~
+
+- ``compute_metrics`` now raises ``ValueError`` when fewer than 2 distinct
+  labels are found in the combined ``y_true`` / ``y_pred`` set — previously it
+  produced a meaningless 1×1 confusion matrix and emitted a ``UserWarning``.
+  See :issue:`131` by :user:`direkkakkar319-ops`.
+- ``load()`` now raises ``FileNotFoundError`` with a clear message
+  (``"No saved model found in '<path>'. Call save() first."``) instead of
+  propagating a raw Python ``FileNotFoundError`` with no context.
+  See :issue:`115` by :user:`direkkakkar319-ops`.
+- ``DatasetLoader`` now validates that the required ``text`` and ``label``
+  columns are present in CSV files before attempting to load, raising
+  ``ValueError`` with the missing column names.
+  See :issue:`121` by :user:`iccccccccccccc`.
+- ``DatasetLoader`` now catches ``json.JSONDecodeError`` on malformed JSONL
+  lines and re-raises with the line number and content for easier debugging.
+  See :issue:`120` by :user:`iccccccccccccc`.
+- Added ``wheel`` and ``build`` to ``[project.optional-dependencies] dev`` in
+  ``pyproject.toml`` so ``python -m build --no-isolation`` works out of the box
+  for contributors without extra manual installs.
+  See :issue:`143` by :user:`direkkakkar319-ops`.
+
+Changed
+~~~~~~~
+
+- Pinned exact doc-build dependency versions in ``docs/requirements-docs.txt``
+  for reproducible Read the Docs builds.
+  See :issue:`139` by :user:`direkkakkar319-ops`.
+- Bumped ``codecov/codecov-action`` from 5 to 6.
+  By :user:`dependabot`.
+- Bumped ``actions/upload-artifact`` from 4 to 7.
+  By :user:`dependabot`.
+- Bumped ``actions/download-artifact`` from 4 to 8.
+  By :user:`dependabot`.
+- Bumped ``MishaKav/pytest-coverage-comment`` from 1.0.26 to 1.7.2.
+  By :user:`dependabot`.
+
+Added
+~~~~~
+
+- Integrated CodeRabbit AI review — maintainers can trigger a review on any
+  pull request by commenting ``@coderabbitai review``.
+  See :issue:`144` by :user:`direkkakkar319-ops`.
 
 ----
 
