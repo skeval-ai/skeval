@@ -25,6 +25,16 @@ class SkoreClassifier(SentenceClassifier):
     """Thin wrapper that adds classes_ for skore tool compatibility."""
 
     def fit(self, X, y):
+        """
+        Fit the classifier on training data and ensure a populated `classes_` attribute.
+        
+        Parameters:
+            X (array-like): Sequence of input texts to train on.
+            y (array-like): Sequence of target labels aligned with `X`.
+        
+        Returns:
+            SkoreClassifier: The fitted estimator with `classes_` set to the sorted unique labels from `y`.
+        """
         super().fit(X, y)
         self.classes_ = np.array(sorted(set(y)))
         return self
