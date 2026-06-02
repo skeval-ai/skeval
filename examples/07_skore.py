@@ -2,7 +2,7 @@
 
 skore is an open-source ML experiment tracker that works with any
 sklearn-compatible estimator.  This example shows how to use skore's
-CrossValidationReport and ComparisonReport to inspect and compare
+EstimatorReport and ComparisonReport to inspect and compare
 SentenceClassifier configurations.
 
 Install skore first:
@@ -16,6 +16,7 @@ import skore
 from sklearn.exceptions import UndefinedMetricWarning
 
 from skeval.classifier import SentenceClassifier
+from skeval.model_selection import train_test_split
 
 warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
 
@@ -27,6 +28,7 @@ class SkoreClassifier(SentenceClassifier):
         super().fit(X, y)
         self.classes_ = np.array(sorted(set(y)))
         return self
+
 
 sentences = [
     # fact (10)
@@ -81,17 +83,24 @@ labels = (
     + ["instruction"] * 10
 )
 
-# --- cross-validated baseline ---
-print("Running cross-validation baseline...")
-baseline = skore.CrossValidationReport(
-    SkoreClassifier(embed_dim=64, epochs=40, lr=0.01, random_state=42),
-    X=sentences,
-    y=labels,
-    splitter=2,
+# --- train / test split ---
+X_train, X_test, y_train, y_test = train_test_split(
+    sentences, labels, test_size=0.25, random_state=42
 )
-print(f"Accuracy:  {baseline.metrics.accuracy()}")
-print(f"Precision: {baseline.metrics.precision()}")
-print(f"Recall:    {baseline.metrics.recall()}")
+
+# --- baseline report ---
+print("Training baseline model...")
+baseline_clf = SkoreClassifier(embed_dim=64, epochs=40, lr=0.01, random_state=42)
+baseline_clf.fit(X_train, y_train)
+
+baseline = skore.EstimatorReport(
+    baseline_clf,
+    X_train=X_train,
+    y_train=y_train,
+    X_test=X_test,
+    y_test=y_test,
+)
+print(f"Baseline accuracy: {baseline.metrics.accuracy()}")
 
 # --- compare hyperparameter configurations ---
 print("\nComparing hyperparameter configurations...")
@@ -104,7 +113,14 @@ for embed_dim in [32, 64]:
             lr=lr,
             random_state=42,
         )
-        report = skore.CrossValidationReport(clf, X=sentences, y=labels, splitter=2)
+        clf.fit(X_train, y_train)
+        report = skore.EstimatorReport(
+            clf,
+            X_train=X_train,
+            y_train=y_train,
+            X_test=X_test,
+            y_test=y_test,
+        )
         reports.append(report)
 
 comparison = skore.ComparisonReport(reports)
