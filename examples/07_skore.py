@@ -44,7 +44,7 @@ baseline = skore.CrossValidationReport(
     SentenceClassifier(embed_dim=64, epochs=40, lr=0.01, random_state=42),
     X=sentences,
     y=labels,
-    cv=2,
+    splitter=2,
 )
 print(baseline.metrics.summarize())
 
