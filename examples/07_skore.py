@@ -1,18 +1,15 @@
 """Tracking experiments with skore.
 
 skore is an open-source ML experiment tracker that works with any
-sklearn-compatible estimator.  This example shows how to log a
-GridSearchCV run and inspect results in the skore UI.
+sklearn-compatible estimator.  This example shows how to use skore's
+CrossValidationReport and ComparisonReport to inspect and compare
+SentenceClassifier configurations.
 
 Install skore first:
     pip install skore
-
-Then launch the UI in a separate terminal:
-    skore launch my_project
 """
 
 import skore
-from sklearn.model_selection import GridSearchCV, cross_val_score
 
 from skeval.classifier import SentenceClassifier
 
@@ -41,35 +38,29 @@ labels = [
     "instruction", "instruction", "instruction", "instruction",
 ]
 
-# --- open (or create) a skore project ---
-project = skore.open("my_project", overwrite=True)
-
 # --- cross-validated baseline ---
-clf = SentenceClassifier(embed_dim=64, epochs=40, lr=0.01, random_state=42)
-cv_scores = cross_val_score(clf, sentences, labels, cv=2, scoring="accuracy")
-project.put("baseline_cv_accuracy", cv_scores.mean())
-print(f"Baseline CV accuracy: {cv_scores.mean():.2%}")
-
-# --- grid search ---
-param_grid = {
-    "embed_dim": [32, 64],
-    "epochs": [20, 40],
-    "lr": [0.005, 0.01],
-}
-search = GridSearchCV(
-    SentenceClassifier(random_state=42),
-    param_grid,
+print("Running cross-validation baseline...")
+baseline = skore.CrossValidationReport(
+    SentenceClassifier(embed_dim=64, epochs=40, lr=0.01, random_state=42),
+    X=sentences,
+    y=labels,
     cv=2,
-    scoring="accuracy",
-    n_jobs=1,
-    verbose=0,
 )
-search.fit(sentences, labels)
+print(baseline.metrics.summarize())
 
-project.put("best_params", search.best_params_)
-project.put("best_cv_accuracy", search.best_score_)
+# --- compare hyperparameter configurations ---
+print("\nComparing hyperparameter configurations...")
+reports = []
+for embed_dim in [32, 64]:
+    for lr in [0.005, 0.01]:
+        clf = SentenceClassifier(
+            embed_dim=embed_dim,
+            epochs=40,
+            lr=lr,
+            random_state=42,
+        )
+        report = skore.CrossValidationReport(clf, X=sentences, y=labels, cv=2)
+        reports.append(report)
 
-print(f"Best params  : {search.best_params_}")
-print(f"Best CV acc  : {search.best_score_:.2%}")
-print("\nOpen the skore UI to explore results:")
-print("  skore launch my_project")
+comparison = skore.ComparisonReport(reports)
+print(comparison.metrics.summarize())
