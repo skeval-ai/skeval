@@ -11,6 +11,17 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
 `Unreleased`_
 -------------
 
+Added
+~~~~~
+
+- :meth:`~skeval.utils.helpers.VocabBuilder.encode_padded` — new method that
+  returns a fixed-length ``[CLS]``-prefixed, ``<PAD>``-padded token index list
+  for use by the Transformer backend.
+  See :issue:`155` by :user:`direkkakkar319-ops`.
+- ``<CLS>`` token reserved at index ``2`` in :class:`~skeval.utils.helpers.VocabBuilder`
+  — vocabulary words now start at index ``3`` (previously ``2``).
+  See :issue:`155` by :user:`direkkakkar319-ops`.
+
 ----
 
 .. _0.2.3: https://github.com/skeval-ai/skeval/compare/v0.2.2...v0.2.3
