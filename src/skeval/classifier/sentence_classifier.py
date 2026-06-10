@@ -402,13 +402,17 @@ class SentenceClassifier(BaseEstimator):  # type: ignore[misc]
             DeprecationWarning,
             stacklevel=2,
         )
+        saved = (self.epochs, self.batch_size, self.lr)
         if epochs is not None:
             self.epochs = epochs
         if batch_size is not None:
             self.batch_size = batch_size
         if lr is not None:
             self.lr = lr
-        return self.fit(sentences, labels)
+        try:
+            return self.fit(sentences, labels)
+        finally:
+            self.epochs, self.batch_size, self.lr = saved
 
     def save(self, save_dir: str) -> None:
         """Persist the trained model and vocabulary metadata to disk.

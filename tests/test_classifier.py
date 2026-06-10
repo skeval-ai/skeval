@@ -293,22 +293,42 @@ def test_train_still_works():
     assert clf.model is not None
 
 
-def test_train_batch_size_override():
-    """train() must apply batch_size override when provided."""
+def test_train_batch_size_override_does_not_mutate():
+    """train() must use the batch_size override for one call without mutating self."""
     clf = SentenceClassifier(embed_dim=16, batch_size=32)
     with warnings.catch_warnings(record=True):
         warnings.simplefilter("always")
         clf.train(SENTENCES, LABELS, epochs=1, batch_size=8)
-    assert clf.batch_size == 8
+    assert clf.batch_size == 32
 
 
-def test_train_lr_override():
-    """train() must apply lr override when provided."""
+def test_train_lr_override_does_not_mutate():
+    """train() must use the lr override for one call without mutating self."""
     clf = SentenceClassifier(embed_dim=16, lr=0.005)
     with warnings.catch_warnings(record=True):
         warnings.simplefilter("always")
         clf.train(SENTENCES, LABELS, epochs=1, lr=0.123)
-    assert clf.lr == 0.123
+    assert clf.lr == 0.005
+
+
+def test_train_epochs_override_does_not_mutate():
+    """train() must use the epochs override for one call without mutating self."""
+    clf = SentenceClassifier(embed_dim=16, epochs=10)
+    with warnings.catch_warnings(record=True):
+        warnings.simplefilter("always")
+        clf.train(SENTENCES, LABELS, epochs=1)
+    assert clf.epochs == 10
+
+
+def test_train_does_not_leak_overrides_into_fit():
+    """train() call passing all overrides must not mutate any of them."""
+    clf = SentenceClassifier(embed_dim=16, epochs=10, batch_size=32, lr=0.005)
+    with warnings.catch_warnings(record=True):
+        warnings.simplefilter("always")
+        clf.train(SENTENCES, LABELS, epochs=1, batch_size=8, lr=0.123)
+    assert clf.epochs == 10
+    assert clf.batch_size == 32
+    assert clf.lr == 0.005
 
 
 def test_fit_y_non_string_raises():
