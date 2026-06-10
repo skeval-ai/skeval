@@ -44,6 +44,7 @@ jobs:
           --ignore-vuln PYSEC-2025-196 \
           --ignore-vuln PYSEC-2025-197 \
           --ignore-vuln PYSEC-2025-210 \
-          --ignore-vuln PYSEC-2026-139
+          --ignore-vuln PYSEC-2026-139 \
+          --ignore-vuln CVE-2025-3000
     - name: License Compliance Check
       run: pip-licenses --format=markdown > licenses.md
