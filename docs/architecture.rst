@@ -70,10 +70,18 @@ VocabBuilder
 
 Located in :mod:`skeval.utils.helpers`.
 
-Builds a bag-of-words vocabulary from a list of sentences. Text is normalized (lowercased, punctuation stripped) before tokenization. Two special tokens are always present:
+Builds a bag-of-words vocabulary from a list of sentences. Text is normalized (lowercased, punctuation stripped) before tokenization. Three special tokens are permanently reserved:
 
-* ``<PAD>`` at index ``0`` — used as a placeholder for empty inputs
+* ``<PAD>`` at index ``0`` — fills unused positions in padded sequences
 * ``<UNK>`` at index ``1`` — maps words not seen during training
+* ``<CLS>`` at index ``2`` — prepended by :meth:`~skeval.utils.helpers.VocabBuilder.encode_padded` as the sentence-level representation for the Transformer backend
+
+All vocabulary words are assigned indices starting at ``3``.
+
+Two encoding methods are available:
+
+* :meth:`~skeval.utils.helpers.VocabBuilder.encode` — returns a variable-length list of token indices. Used by the ``bow`` backend with ``nn.EmbeddingBag``.
+* :meth:`~skeval.utils.helpers.VocabBuilder.encode_padded` — returns a fixed-length list of exactly ``max_len`` indices, prefixed with ``<CLS>`` and right-padded with ``<PAD>``. Used by the ``transformer`` backend.
 
 The ``min_freq`` parameter (default ``1``) filters out rare tokens. The ``word2idx`` and ``idx2word`` mappings are built in a single pass over the corpus for efficiency.
 

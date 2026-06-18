@@ -21,9 +21,17 @@ def normalize_text(text: str) -> str:
 class VocabBuilder:
     """Builds a vocabulary from a text corpus and encodes sentences as indices.
 
-    Tokens 0 and 1 are reserved for ``<PAD>`` and ``<UNK>`` respectively.
-    All other tokens are assigned indices starting at 2 in the order they
-    appear in the counter after filtering by ``min_freq``.
+    Three indices are permanently reserved:
+
+    ======  =======  =====================================================
+    Index   Token    Purpose
+    ======  =======  =====================================================
+    0       <PAD>    Padding — fills unused positions in padded sequences
+    1       <UNK>    Unknown — replaces out-of-vocabulary tokens
+    2       <CLS>    Classification — prepended by ``encode_padded()``
+    ======  =======  =====================================================
+
+    All vocabulary words are assigned indices starting at 3.
 
     Attributes:
         min_freq: Minimum number of occurrences for a token to be included.
@@ -33,16 +41,16 @@ class VocabBuilder:
     """
 
     def __init__(self, min_freq: int = 1) -> None:
-        """Initialise an empty vocabulary.
+        """Initialise an empty vocabulary with the three reserved tokens.
 
         Args:
             min_freq: Tokens appearing fewer than this many times across the
                 corpus are excluded from the vocabulary.
         """
         self.min_freq = min_freq
-        # Reserve 0 for padding, 1 for unknown words
-        self.word2idx: Dict[str, int] = {"<PAD>": 0, "<UNK>": 1}
-        self.idx2word: Dict[int, str] = {0: "<PAD>", 1: "<UNK>"}
+        # 0=<PAD>, 1=<UNK>, 2=<CLS> — all reserved; words start at index 3
+        self.word2idx: Dict[str, int] = {"<PAD>": 0, "<UNK>": 1, "<CLS>": 2}
+        self.idx2word: Dict[int, str] = {0: "<PAD>", 1: "<UNK>", 2: "<CLS>"}
         self.is_built: bool = False
 
     def build(self, sentences: List[str]) -> None:
@@ -80,6 +88,35 @@ class VocabBuilder:
             raise ValueError("Vocabulary has not been built yet. Call build() first.")
         words = normalize_text(sentence).split()
         return [self.word2idx.get(word, self.word2idx["<UNK>"]) for word in words]
+
+    def encode_padded(self, sentence: str, max_len: int) -> List[int]:
+        """Encode a sentence as a ``[CLS]``-prefixed, fixed-length token list.
+
+        Prepends ``<CLS>`` (index 2), encodes up to ``max_len - 1`` words,
+        then right-pads with ``<PAD>`` (index 0) to exactly ``max_len``
+        tokens. Sentences longer than ``max_len - 1`` words are truncated.
+
+        Args:
+            sentence: Raw input sentence.
+            max_len: Total sequence length including the ``<CLS>`` token.
+                Must be at least 2 (room for ``<CLS>`` + one token).
+
+        Returns:
+            List of exactly ``max_len`` integer indices.
+
+        Raises:
+            ValueError: If ``build()`` has not been called yet.
+            ValueError: If ``max_len`` is less than 2.
+        """
+        if not self.is_built:
+            raise ValueError("Vocabulary has not been built yet. Call build() first.")
+        if max_len < 2:
+            raise ValueError(f"max_len must be at least 2 (got {max_len}).")
+        cls_idx = self.word2idx["<CLS>"]
+        pad_idx = self.word2idx["<PAD>"]
+        word_indices = self.encode(sentence)[: max_len - 1]
+        padding = [pad_idx] * (max_len - 1 - len(word_indices))
+        return [cls_idx] + word_indices + padding
 
     def __len__(self) -> int:
         return len(self.word2idx)

@@ -15,7 +15,7 @@ def test_vocab_builder_basic():
     vocab = VocabBuilder(min_freq=1)
     vocab.build(["Hello world", "Hello there"])
     assert vocab.is_built
-    assert len(vocab) == 5  # <PAD>, <UNK>, hello, world, there
+    assert len(vocab) == 6  # <PAD>, <UNK>, <CLS>, hello, world, there
 
 
 def test_vocab_builder_min_freq():
@@ -68,9 +68,9 @@ def test_vocab_builder_normalises_case():
 
 
 def test_vocab_builder_len():
-    """A freshly created VocabBuilder should have length 2 (<PAD> and <UNK>)."""
+    """A freshly created VocabBuilder should have length 3 (<PAD>, <UNK>, <CLS>)."""
     vocab = VocabBuilder()
-    assert len(vocab) == 2
+    assert len(vocab) == 3
 
 
 # --- LabelEncoder ---
